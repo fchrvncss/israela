@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Aulas de medicina e de espanhol com a Israela, online e presenciais. Escolha a matéria e o assunto e marque pelo WhatsApp.">
+<meta property="og:title" content="Aulas com Israela">
+<meta property="og:description" content="Aulas de medicina e de espanhol com a Israela, online e presenciais. Escolha a matéria e o assunto e marque pelo WhatsApp.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230A7D6B'/><text x='32' y='45' font-size='38' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'>I</text></svg>">
+<style>img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Aulas com Israela</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:opsz,wght@9..40,400..700&display=swap">
+<style>
+/* Layout: página de estudo, clara e direta. No topo, um cartão de memória vira sozinho entre português e espanhol
+   e uma linha de batimento corre pela tela. O centro é o "monte sua aula": matéria, assunto, formato e pedido.
+   Verde marca medicina, vermelho marca espanhol. */
+:root{
+  --fundo:#F6F7FA; --cartao:#FFFFFF; --tinta:#16213A; --suave:#566077; --linha:#DCE0EA;
+  --med:#0A7D6B; --esp:#D43A34; --sobre-cor:#FFFFFF; --pulso:#E0453F;
+  --wa:#25D366; --wa-tinta:#06301A; --erro:#B3261E; --sombra:rgba(22,33,58,.13);
+  --titulo:"Bricolage Grotesque","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  --corpo:"DM Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --t-1:.9375rem; --t0:1.0625rem; --t1:1.25rem;
+  --t3:clamp(1.75rem,2.6vw + 1rem,2.5rem); --t4:clamp(2.625rem,5.4vw + 1rem,4.75rem);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --fundo:#0F1420; --cartao:#171E2E; --tinta:#EEF1F7; --suave:#A7B0C4; --linha:#2B3449;
+  --med:#3ECFB2; --esp:#FF7A70; --sobre-cor:#0B1220; --pulso:#FF7A70;
+  --erro:#FF8A80; --sombra:rgba(0,0,0,.45); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --fundo:#0F1420; --cartao:#171E2E; --tinta:#EEF1F7; --suave:#A7B0C4; --linha:#2B3449;
+  --med:#3ECFB2; --esp:#FF7A70; --sobre-cor:#0B1220; --pulso:#FF7A70;
+  --erro:#FF8A80; --sombra:rgba(0,0,0,.45); color-scheme:dark }
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fundo);color:var(--tinta);font:400 var(--t0)/1.55 var(--corpo);-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,dl{margin:0}
+h1,h2{text-wrap:balance}
+a{color:inherit}
+button{font:inherit}
+.wrap{max-width:1120px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:3px solid var(--med);outline-offset:3px;border-radius:6px}
+
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;padding-block:16px;flex-wrap:wrap}
+.marca{display:inline-flex;align-items:center;gap:8px;font:800 1.5rem/1 var(--titulo);letter-spacing:-.03em;text-decoration:none}
+.marca svg{width:34px;height:34px;flex:none;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.marca .n{stroke:var(--esp);stroke-width:3}
+.marca .pulso-l{stroke:var(--med);stroke-width:2.2}
+.menu{display:flex;align-items:center;gap:8px clamp(14px,2.2vw,26px);flex-wrap:wrap;font-weight:500;font-size:var(--t-1)}
+.menu a{text-decoration:none}
+.menu a:not(.btn):hover{text-decoration:underline;text-underline-offset:4px}
+@media (max-width:700px){.menu a:not(.btn){display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:13px 22px;border-radius:14px;font:700 1rem/1.15 var(--corpo);text-decoration:none;text-align:center;border:1.5px solid transparent;cursor:pointer;transition:transform .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn svg{flex:none}
+.btn-1{background:var(--tinta);color:var(--fundo)}
+.btn-2{border-color:var(--tinta);background:transparent;color:var(--tinta)}
+.btn-wa{background:var(--wa);color:var(--wa-tinta)}
+.btn-p{min-height:44px;padding:10px 16px;font-size:var(--t-1)}
+.acoes{display:flex;flex-wrap:wrap;gap:10px}
+
+.abre .wrap{display:grid;gap:clamp(36px,5vw,56px);align-items:center;padding-block:clamp(20px,4vw,52px) clamp(28px,4vw,44px)}
+@media (min-width:900px){.abre .wrap{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}}
+.abre h1{font:800 var(--t4)/.98 var(--titulo);letter-spacing:-.035em}
+.abre h1 .m{color:var(--med)}
+.abre h1 .e{color:var(--esp)}
+.lead{font-size:var(--t1);line-height:1.45;color:var(--suave);max-width:36ch;margin-top:16px}
+.abre .acoes{margin-top:26px}
+
+.pilha{position:relative;justify-self:center;width:min(100%,340px);aspect-ratio:17/11;max-width:100%;perspective:1100px}
+.pilha::before,.pilha::after{content:"";position:absolute;inset:0;border-radius:20px;background:var(--cartao);border:1.5px solid var(--linha)}
+.pilha::before{transform:rotate(-6deg) translate(-8px,8px)}
+.pilha::after{transform:rotate(4deg) translate(8px,6px)}
+.ficha{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;padding:0;border:0;background:none;color:inherit;cursor:pointer;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.9,.3,1)}
+.ficha.virada{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;padding:18px 22px;border-radius:20px;background:var(--cartao);border:2px solid var(--med);box-shadow:0 14px 34px var(--sombra);text-align:left;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.verso{transform:rotateY(180deg);border-color:var(--esp)}
+.lingua{font:700 .75rem/1.3 var(--corpo);letter-spacing:.16em;text-transform:uppercase;color:var(--med)}
+.verso .lingua{color:var(--esp)}
+.termo{align-self:center;font:800 clamp(2.25rem,7vw,3rem)/1 var(--titulo);letter-spacing:-.03em}
+.dica{font-size:.8125rem;color:var(--suave)}
+
+.pulso{overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent)}
+.pulso svg{display:block;width:100%;height:72px}
+.pulso .tr{stroke:var(--pulso);stroke-width:2.2;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.pulso .corre{animation:corre 1.6s linear infinite}
+@keyframes corre{to{transform:translateX(-80px)}}
+
+.fatos .wrap{display:flex;flex-wrap:wrap;gap:10px;padding-block:20px 0}
+.fato{display:inline-flex;align-items:baseline;gap:8px;padding:10px 16px;border:1.5px solid var(--linha);border-radius:999px;background:var(--cartao);font-size:var(--t-1);color:var(--suave)}
+.fato b{font:800 1rem/1.2 var(--titulo);color:var(--tinta)}
+
+.bloco{padding-block:clamp(40px,5.5vw,72px)}
+.bloco h2{font:800 var(--t3)/1.05 var(--titulo);letter-spacing:-.025em}
+.intro{max-width:52ch;margin-top:10px;color:var(--suave);font-size:var(--t1);line-height:1.45}
+
+.monta{display:grid;gap:clamp(24px,4vw,44px);margin-top:28px}
+@media (min-width:960px){.monta{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);align-items:start}}
+.passo{display:grid;gap:12px;padding-block:22px;border-top:1.5px solid var(--linha);min-width:0;scroll-margin-top:16px}
+.passo:first-child{border-top:0;padding-top:0}
+.passo>h3{font:800 1.1875rem/1.2 var(--titulo);letter-spacing:-.01em}
+.passo>h3 i{font-style:normal;color:var(--suave);margin-right:6px}
+.rot{font:700 .75rem/1.3 var(--corpo);letter-spacing:.14em;text-transform:uppercase;color:var(--suave)}
+.rot.e{color:var(--esp)}
+.rot.m{color:var(--med)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:620px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tile{min-height:56px;padding:12px 14px;border:1.5px solid var(--linha);border-radius:14px;background:var(--cartao);color:var(--tinta);font-weight:700;line-height:1.2;text-align:left;cursor:pointer;transition:transform .15s ease,border-color .15s ease;min-width:0;overflow-wrap:anywhere}
+.tile:hover{border-color:var(--tinta);transform:translateY(-2px)}
+.tile[aria-pressed="true"]{background:var(--med);border-color:var(--med);color:var(--sobre-cor);animation:pop .3s ease}
+.tile.esp{border-color:var(--esp)}
+.tile.esp[aria-pressed="true"]{background:var(--esp);border-color:var(--esp)}
+@keyframes pop{50%{transform:scale(1.06)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips.surge{animation:surge .35s ease}
+@keyframes surge{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
+.chip{min-height:44px;padding:8px 16px;border:1.5px solid var(--linha);border-radius:999px;background:var(--cartao);color:var(--tinta);font-weight:500;font-size:var(--t-1);line-height:1.2;cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+.chip:hover{border-color:var(--tinta);transform:translateY(-1px)}
+.chip[aria-pressed="true"]{background:var(--tinta);border-color:var(--tinta);color:var(--fundo)}
+.chip.especial{border-style:dashed;border-color:var(--suave);font-weight:700}
+.chip.especial[aria-pressed="true"]{border-style:solid;border-color:var(--tinta)}
+.vazio{color:var(--suave)}
+
+.formatos{display:grid;gap:8px}
+@media (min-width:620px){.formatos{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.formatos input,.onde input{position:absolute;opacity:0;width:1px;height:1px}
+.formatos label{display:grid;gap:2px;align-content:start;padding:14px;border:1.5px solid var(--linha);border-radius:14px;background:var(--cartao);cursor:pointer;min-width:0}
+.formatos b{font-weight:700;line-height:1.2}
+.formatos .preco{font:800 1.75rem/1.1 var(--titulo);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.formatos small{color:var(--suave);font-size:.875rem;line-height:1.3}
+.formatos input:checked+label{border-color:var(--tinta);box-shadow:inset 0 0 0 1.5px var(--tinta)}
+.formatos input:focus-visible+label,.onde input:focus-visible+label{outline:3px solid var(--med);outline-offset:3px}
+.linha-opc{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.onde{display:flex;flex-wrap:wrap;gap:8px}
+.onde label{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border:1.5px solid var(--linha);border-radius:999px;background:var(--cartao);cursor:pointer;font-weight:500;font-size:var(--t-1)}
+.onde input:checked+label{background:var(--tinta);border-color:var(--tinta);color:var(--fundo)}
+.pessoas{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:var(--t-1)}
+.conta{display:inline-flex;align-items:center;border:1.5px solid var(--linha);border-radius:999px;background:var(--cartao)}
+.conta button{width:44px;height:44px;border:0;border-radius:999px;background:none;color:var(--tinta);font-weight:700;font-size:1.25rem;cursor:pointer}
+.conta output{min-width:2ch;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.pagar{color:var(--suave);font-size:var(--t-1)}
+.direto{margin-top:6px;color:var(--suave);font-size:var(--t-1)}
+.direto a{color:var(--tinta);font-weight:700}
+
+.pedido{display:grid;gap:14px;padding:22px;background:var(--cartao);border:1.5px solid var(--tinta);border-radius:20px;box-shadow:0 14px 34px var(--sombra);min-width:0;scroll-margin-top:16px}
+@media (min-width:960px){.pedido{position:sticky;top:calc(16px + env(safe-area-inset-top,0px))}}
+.pedido h3{font:800 1.1875rem/1.2 var(--titulo)}
+.resumo{display:grid;gap:8px}
+.resumo div{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px;font-size:var(--t-1)}
+.resumo dt{color:var(--suave)}
+.resumo dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.total{font:800 1.875rem/1 var(--titulo);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.total small{font:500 .875rem/1.3 var(--corpo);color:var(--suave);letter-spacing:0;margin-left:6px}
+.campo{display:grid;gap:6px;min-width:0}
+.campo label{font-weight:700;font-size:var(--t-1)}
+.campo input{width:100%;min-height:48px;padding:10px 14px;border:1.5px solid var(--linha);border-radius:12px;background:var(--fundo);color:inherit;font:inherit}
+.campo ::placeholder{color:var(--suave);opacity:.8}
+.erro{color:var(--erro);font-weight:700;font-size:var(--t-1)}
+.aviso{font-size:.875rem;color:var(--suave)}
+
+.sobre .wrap{display:grid;gap:clamp(20px,4vw,48px)}
+@media (min-width:860px){.sobre .wrap{grid-template-columns:minmax(0,1fr) auto;align-items:center}}
+.sobre p{font-size:var(--t1);line-height:1.5;max-width:50ch;margin-top:12px}
+.sobre .acoes{margin-top:20px}
+.uba{display:grid;gap:2px;justify-items:start;padding:20px 24px;border-radius:20px;background:var(--tinta);color:var(--fundo)}
+.uba b{font:800 3.5rem/1 var(--titulo);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.uba span{font-weight:700;line-height:1.3}
+.uba small{font-size:.875rem;opacity:.8}
+
+.bot{max-width:720px;margin-top:24px;border:1.5px solid var(--tinta);border-radius:20px;background:var(--cartao);box-shadow:0 14px 34px var(--sombra);overflow:hidden}
+.bot-topo{display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;padding:14px 18px;border-bottom:1.5px solid var(--linha);font-size:var(--t-1)}
+.bot-topo span:last-child{color:var(--suave)}
+.bot-luz{width:10px;height:10px;border-radius:50%;background:var(--wa);animation:pisca 1.6s ease-in-out infinite}
+@keyframes pisca{50%{opacity:.3}}
+.bot-conversa{display:flex;flex-direction:column;gap:10px;padding:18px;min-height:110px;max-height:340px;overflow-y:auto;overscroll-behavior:contain}
+.msg{max-width:86%;padding:10px 14px;border-radius:16px;line-height:1.45;overflow-wrap:anywhere;animation:surge .3s ease}
+.msg.bot-m{align-self:flex-start;background:var(--fundo);border:1.5px solid var(--linha);border-bottom-left-radius:4px}
+.msg.eu{align-self:flex-end;background:var(--tinta);color:var(--fundo);border-bottom-right-radius:4px}
+.msg .btn{display:flex;width:max-content;max-width:100%;margin-top:10px}
+.digitando{display:inline-flex;gap:4px;align-items:center;height:20px}
+.digitando i{width:7px;height:7px;border-radius:50%;background:var(--suave);animation:pula 1s ease-in-out infinite}
+.digitando i:nth-child(2){animation-delay:.15s}
+.digitando i:nth-child(3){animation-delay:.3s}
+@keyframes pula{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.bot .chips{padding:0 18px 16px}
+.bot-envio{display:flex;gap:8px;padding:14px 18px;border-top:1.5px solid var(--linha)}
+.bot-envio input{flex:1;min-width:0;min-height:44px;padding:10px 14px;border:1.5px solid var(--linha);border-radius:12px;background:var(--fundo);color:inherit;font:inherit}
+.so-leitor{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+.fim{border-top:1.5px solid var(--linha)}
+.fim .wrap{display:flex;flex-wrap:wrap;gap:8px 32px;justify-content:space-between;padding-block:26px 104px;font-size:var(--t-1);color:var(--suave)}
+.fim a{color:var(--tinta);font-weight:700;text-decoration:none}
+.flutua{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;border-radius:999px;box-shadow:0 8px 24px var(--sombra)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio"><svg viewBox="0 0 32 32" aria-hidden="true"><path class="pulso-l" d="M4.5 8.5H11l2-4.5 3.5 8 2-3.500h9"/><path class="n" d="M9.500 27V16M9.500 21.500c0-3.500 2.800-5.800 6.500-5.800s6.500 2.300 6.500 5.800V27"/></svg>Israela</a>
+    <nav class="menu" aria-label="Seções">
+      <a href="#monte">Monte sua aula</a>
+      <a href="#valores">Valores</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a class="btn btn-1 btn-p" href="#monte">Marcar aula</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+<section class="abre">
+  <div class="wrap">
+    <div>
+      <h1>Aulas de <span class="m">medicina</span> e de <span class="e">espanhol</span>.</h1>
+      <p class="lead">Com a Israela, que cursou 5 anos de Medicina na UBA, em Buenos Aires.</p>
+      <div class="acoes">
+        <a class="btn btn-1" href="#monte">Montar minha aula</a>
+        <a class="btn btn-2" data-msg="Olá, Israela! Vim pelo site e quero saber mais sobre as aulas." href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>Falar com a Israela</a>
+        <a class="btn btn-2" href="https://www.instagram.com/hutscher_/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a>
+      </div>
+    </div>
+    <div class="pilha">
+      <button type="button" class="ficha" id="ficha" aria-label="Cartão de memória em português e espanhol. Toque para virar.">
+        <span class="face frente"><span class="lingua">Português</span><span class="termo" id="termo-pt">coração</span><span class="dica">toque para virar</span></span>
+        <span class="face verso"><span class="lingua">Español</span><span class="termo" id="termo-es">corazón</span><span class="dica">toque para virar</span></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="pulso" aria-hidden="true">
+  <svg focusable="false">
+    <defs>
+      <pattern id="batida" width="80" height="72" patternUnits="userSpaceOnUse">
+        <path class="tr" d="M0 48h6q5-14 10 0h6l1.5 4 2.5-40 2.5 44 1.5-8h8q9-20 18 0h24"/>
+      </pattern>
+    </defs>
+    <rect class="corre" width="4200" height="72" fill="url(#batida)"/>
+  </svg>
+</div>
+
+<section class="fatos" aria-label="Resumo das aulas">
+  <div class="wrap">
+    <span class="fato"><b>5 anos</b> de Medicina na UBA</span>
+    <span class="fato"><b>A partir de R$ 60</b> por pessoa</span>
+    <span class="fato"><b>Online</b> e presencial</span>
+    <span class="fato"><b>Pix</b> ou dinheiro</span>
+  </div>
+</section>
+
+<section class="bloco" id="monte">
+  <div class="wrap">
+    <h2>Monte sua aula</h2>
+    <p class="intro">Escolha a matéria e o assunto. A Israela já recebe sabendo o que preparar.</p>
+    <div class="monta">
+      <div>
+        <div class="passo">
+          <h3><i>1</i>Matéria</h3>
+          <p class="rot m">Medicina</p>
+          <div class="tiles" id="tiles-med"></div>
+          <p class="rot e">Idiomas</p>
+          <div class="tiles" id="tiles-esp"></div>
+        </div>
+        <div class="passo" id="passo-assunto">
+          <h3><i>2</i><span id="titulo-assunto">Assunto</span></h3>
+          <p class="vazio" id="assunto-vazio">Escolha uma matéria para ver os assuntos.</p>
+          <div class="chips" id="chips" hidden></div>
+        </div>
+        <div class="passo" id="valores">
+          <h3><i>3</i>Formato e valor</h3>
+          <div class="formatos" role="radiogroup" aria-label="Formato da aula">
+            <input type="radio" name="fmt" id="fmt-individual" value="individual" checked><label for="fmt-individual"><b>Aula individual</b><span class="preco">R$ 80</span><small>1 hora</small></label>
+            <input type="radio" name="fmt" id="fmt-grupo" value="grupo"><label for="fmt-grupo"><b>Dupla ou grupo</b><span class="preco">R$ 60</span><small>por pessoa · até 8 pessoas</small></label>
+            <input type="radio" name="fmt" id="fmt-vespera" value="vespera"><label for="fmt-vespera"><b>Revisão de véspera</b><span class="preco">R$ 100</span><small>até 1h30 de aula</small></label>
+          </div>
+          <div class="pessoas" id="pessoas" hidden>
+            <span id="rot-pessoas">Quantas pessoas?</span>
+            <span class="conta" role="group" aria-labelledby="rot-pessoas">
+              <button type="button" id="menos" aria-label="Menos uma pessoa">−</button>
+              <output id="n-pessoas">2</output>
+              <button type="button" id="mais" aria-label="Mais uma pessoa">+</button>
+            </span>
+          </div>
+          <div class="linha-opc">
+            <div class="onde" role="radiogroup" aria-label="Onde vai ser a aula">
+              <input type="radio" name="onde" id="onde-online" value="online" checked><label for="onde-online">Online</label>
+              <input type="radio" name="onde" id="onde-presencial" value="presencial"><label for="onde-presencial">Presencial</label>
+            </div>
+            <span class="pagar">Pagamento por Pix ou em dinheiro.</span>
+          </div>
+        </div>
+        <p class="direto">Prefere explicar com as suas palavras? <a data-msg="Olá, Israela! Quero uma aula, mas prefiro te explicar o que preciso." href="https://wa.me/" target="_blank" rel="noopener">Converse direto com a Israela</a>.</p>
+      </div>
+
+      <form class="pedido" id="pedido" novalidate>
+        <h3>Seu pedido</h3>
+        <dl class="resumo">
+          <div><dt>Matéria</dt><dd id="r-materia">—</dd></div>
+          <div><dt>Assunto</dt><dd id="r-assunto">—</dd></div>
+          <div><dt>Formato</dt><dd id="r-formato">Aula individual</dd></div>
+          <div><dt>Onde</dt><dd id="r-onde">Online</dd></div>
+        </dl>
+        <p class="total" id="r-total">R$ 80<small>1 hora</small></p>
+        <div class="campo">
+          <label for="f-nome">Seu nome</label>
+          <input type="text" id="f-nome" autocomplete="name" placeholder="Como você se chama?">
+        </div>
+        <div class="campo">
+          <label for="f-quando">Para quando? (opcional)</label>
+          <input type="date" id="f-quando">
+        </div>
+        <p class="erro" id="erro" role="alert" hidden></p>
+        <a class="btn btn-wa" id="enviar" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>Enviar pelo WhatsApp</a>
+        <p class="aviso">O WhatsApp abre com o pedido pronto. É só enviar.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="bloco sobre" id="sobre">
+  <div class="wrap">
+    <div>
+      <h2>Quem dá a aula</h2>
+      <p>Israela cursou 5 anos de Medicina na UBA, a Universidade de Buenos Aires, uma das mais renomadas da América Latina.</p>
+      <p>Hoje vive no Paraguai, onde segue na Medicina e também dá aulas de espanhol.</p>
+      <div class="acoes">
+        <a class="btn btn-2 btn-p" href="https://www.instagram.com/hutscher_/" target="_blank" rel="noopener">Instagram @hutscher_</a>
+      </div>
+    </div>
+    <div class="uba"><b id="anos">5</b><span>anos de Medicina</span><small>UBA · Universidad de Buenos Aires</small></div>
+  </div>
+</section>
+
+<section class="bloco" id="duvidas">
+  <div class="wrap">
+    <h2>Pergunte ao assistente</h2>
+    <p class="intro">Ele responde na hora, a qualquer hora.</p>
+    <div class="bot">
+      <div class="bot-topo"><span class="bot-luz" aria-hidden="true"></span><b>Assistente da Israela</b><span>resposta automática</span></div>
+      <div class="bot-conversa" id="bot-conversa" role="log" aria-live="polite"></div>
+      <div class="chips" id="bot-chips"></div>
+      <form class="bot-envio" id="bot-form">
+        <label class="so-leitor" for="bot-texto">Escreva sua dúvida</label>
+        <input type="text" id="bot-texto" autocomplete="off" placeholder="Escreva sua dúvida">
+        <button class="btn btn-1 btn-p" type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="fim">
+  <div class="wrap">
+    <span>Aulas com Israela · medicina e espanhol · online e presencial</span>
+    <span><a href="https://www.instagram.com/hutscher_/" target="_blank" rel="noopener">Instagram @hutscher_</a></span>
+  </div>
+</footer>
+
+<a class="btn btn-wa flutua" data-msg="Olá, Israela! Vim pelo site e quero saber mais sobre as aulas." href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>WhatsApp</a>
+<script>
+(function(){
+  // ===== Dados para trocar =====
+  var WHATSAPP = "5591176465637";   // 55 + DDD + número, só algarismos (como foi informado: +55 91176465637)
+  var MATERIAS = [
+    { id: "anatomia",   nome: "Anatomia",                  area: "med", topicos: ["Sistema locomotor", "Cabeça e pescoço", "Tórax", "Abdome e pelve", "Neuroanatomia"] },
+    { id: "histologia", nome: "Histologia e embriologia",  area: "med", topicos: ["Tecidos básicos", "Histologia dos sistemas", "Embriologia", "Biologia celular"] },
+    { id: "bioquimica", nome: "Bioquímica",                area: "med", topicos: ["Proteínas e enzimas", "Carboidratos", "Lipídios", "Aminoácidos", "DNA e RNA"] },
+    { id: "fisiologia", nome: "Fisiologia",                area: "med", topicos: ["Cardiovascular", "Respiratória", "Renal e ácido-base", "Neurofisiologia", "Endócrina", "Digestória"] },
+    { id: "micro",      nome: "Microbiologia e imunologia", area: "med", topicos: ["Bactérias", "Vírus", "Parasitas e fungos", "Imunologia"] },
+    { id: "patologia",  nome: "Patologia",                 area: "med", topicos: ["Lesão celular", "Inflamação e reparo", "Distúrbios hemodinâmicos", "Neoplasias"] },
+    { id: "farmaco",    nome: "Farmacologia",              area: "med", topicos: ["Farmacocinética", "Farmacodinâmica", "Sistema nervoso autônomo", "Antimicrobianos", "Anti-inflamatórios"] },
+    { id: "semiologia", nome: "Semiologia",                area: "med", topicos: ["Anamnese", "Exame físico geral", "Cardiovascular e respiratório", "Abdome", "Neurológico"] },
+    { id: "espanhol",   nome: "Espanhol",                  area: "esp", topicos: ["Do zero", "Conversação", "Gramática", "Espanhol para medicina"] }
+  ];
+  var FORMATOS = {
+    individual: { rotulo: "Aula individual",    preco: 80,  nota: "1 hora" },
+    grupo:      { rotulo: "Dupla ou grupo",     preco: 60,  nota: "R$ 60 por pessoa" },
+    vespera:    { rotulo: "Revisão de véspera", preco: 100, nota: "até 1h30 de aula" }
+  };
+  var CARTOES = [["coração", "corazón"], ["joelho", "rodilla"], ["rim", "riñón"], ["osso", "hueso"], ["fígado", "hígado"], ["pescoço", "cuello"], ["febre", "fiebre"], ["prova", "examen"]];
+
+  function $(id){ return document.getElementById(id); }
+  function linkWa(texto){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto); }
+  function calmo(){ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+  function botao(classe, texto){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = classe; b.textContent = texto; b.setAttribute("aria-pressed", "false");
+    return b;
+  }
+  document.querySelectorAll("a[data-msg]").forEach(function(a){ a.href = linkWa(a.dataset.msg); });
+
+  // ----- monte sua aula -----
+  var estado = { materia: null, topicos: [], modo: "", pessoas: 2 };   // modo: "" | "geral" | "conversar"
+  function materia(){ return MATERIAS.filter(function(m){ return m.id === estado.materia; })[0] || null; }
+  function formato(){ return document.querySelector('input[name="fmt"]:checked').value; }
+  function onde(){ return document.querySelector('input[name="onde"]:checked').value; }
+
+  MATERIAS.forEach(function(m){
+    var b = botao("tile" + (m.area === "esp" ? " esp" : ""), m.nome);
+    b.dataset.id = m.id;
+    b.addEventListener("click", function(){
+      estado.materia = m.id; estado.topicos = []; estado.modo = "";
+      desenharAssuntos(); atualizar();
+      if (window.matchMedia("(max-width: 959px)").matches) $("passo-assunto").scrollIntoView({ behavior: calmo() ? "auto" : "smooth", block: "start" });
+    });
+    $(m.area === "esp" ? "tiles-esp" : "tiles-med").appendChild(b);
+  });
+
+  function desenharAssuntos(){
+    var m = materia(), c = $("chips");
+    c.textContent = "";
+    $("assunto-vazio").hidden = !!m; c.hidden = !m;
+    $("titulo-assunto").textContent = m ? "Assunto de " + m.nome : "Assunto";
+    if (!m) return;
+    m.topicos.forEach(function(t){
+      var b = botao("chip", t); b.dataset.t = t;
+      b.addEventListener("click", function(){
+        var i = estado.topicos.indexOf(t);
+        estado.modo = "";
+        if (i >= 0) estado.topicos.splice(i, 1); else estado.topicos.push(t);
+        atualizar();
+      });
+      c.appendChild(b);
+    });
+    [["geral", "Revisão geral da matéria"], ["conversar", "Quero conversar antes"]].forEach(function(par){
+      var b = botao("chip especial", par[1]); b.dataset.modo = par[0];
+      b.addEventListener("click", function(){
+        estado.modo = estado.modo === par[0] ? "" : par[0]; estado.topicos = [];
+        atualizar();
+      });
+      c.appendChild(b);
+    });
+    c.classList.remove("surge"); void c.offsetWidth; c.classList.add("surge");
+  }
+
+  var DIAS = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+  function dois(n){ return (n < 10 ? "0" : "") + n; }
+  function diaTexto(v){
+    var p = v.split("-"), d = new Date(+p[0], +p[1] - 1, +p[2]);
+    return DIAS[d.getDay()] + ", " + dois(d.getDate()) + "/" + dois(d.getMonth() + 1);
+  }
+  function assuntoTexto(){
+    if (estado.modo === "geral") return "Revisão geral da matéria";
+    if (estado.modo === "conversar") return "Conversar antes com a Israela";
+    return estado.topicos.length ? estado.topicos.join(", ") : "—";
+  }
+  function mensagem(){
+    var m = materia(), f = formato(), F = FORMATOS[f], nome = $("f-nome").value.trim(), q = $("f-quando").value;
+    var l = ["Olá, Israela! Meu nome é " + (nome || "[seu nome]") + "."];
+    l.push(m ? "Quero uma aula de " + m.nome + "." : "Quero marcar uma aula.");
+    if (estado.modo === "geral") l.push("Quero uma revisão geral da matéria.");
+    else if (estado.modo === "conversar") l.push("Prefiro conversar antes para explicar o que preciso.");
+    else if (estado.topicos.length) l.push("Assuntos: " + estado.topicos.join(", ") + ".");
+    if (f === "grupo") l.push("Formato: dupla ou grupo, " + estado.pessoas + " pessoas (R$ 60 por pessoa).");
+    else l.push("Formato: " + F.rotulo.toLowerCase() + " (R$ " + F.preco + ").");
+    l.push("Onde: " + onde() + ".");
+    if (q) l.push("Para quando: " + diaTexto(q) + ".");
+    l.push("(Pedido feito pelo site)");
+    return l.join("\n");
+  }
+  function atualizar(){
+    var m = materia(), f = formato(), F = FORMATOS[f];
+    document.querySelectorAll(".tile").forEach(function(b){
+      b.setAttribute("aria-pressed", b.dataset.id === estado.materia ? "true" : "false");
+    });
+    document.querySelectorAll("#chips .chip").forEach(function(b){
+      var ligado = b.dataset.modo ? estado.modo === b.dataset.modo : estado.topicos.indexOf(b.dataset.t) >= 0;
+      b.setAttribute("aria-pressed", ligado ? "true" : "false");
+    });
+    $("pessoas").hidden = f !== "grupo";
+    $("n-pessoas").textContent = estado.pessoas;
+    $("r-materia").textContent = m ? m.nome : "—";
+    $("r-assunto").textContent = assuntoTexto();
+    $("r-formato").textContent = F.rotulo + (f === "grupo" ? " · " + estado.pessoas + " pessoas" : "");
+    $("r-onde").textContent = onde() === "online" ? "Online" : "Presencial";
+    var total = $("r-total"), nota = document.createElement("small");
+    total.textContent = "R$ " + (f === "grupo" ? F.preco * estado.pessoas : F.preco);
+    nota.textContent = F.nota; total.appendChild(nota);
+    $("enviar").href = linkWa(mensagem());
+    if (m && $("f-nome").value.trim()) $("erro").hidden = true;
+  }
+  function erro(texto){ var e = $("erro"); e.textContent = texto; e.hidden = false; }
+
+  document.querySelectorAll('input[name="fmt"], input[name="onde"]').forEach(function(r){ r.addEventListener("change", atualizar); });
+  $("menos").addEventListener("click", function(){ estado.pessoas = Math.max(2, estado.pessoas - 1); atualizar(); });
+  $("mais").addEventListener("click", function(){ estado.pessoas = Math.min(8, estado.pessoas + 1); atualizar(); });
+  var hoje = new Date();
+  $("f-quando").min = hoje.getFullYear() + "-" + dois(hoje.getMonth() + 1) + "-" + dois(hoje.getDate());
+  $("pedido").addEventListener("input", atualizar);
+  $("pedido").addEventListener("submit", function(e){ e.preventDefault(); });
+  $("enviar").addEventListener("click", function(e){
+    if (!materia()){ e.preventDefault(); erro("Escolha a matéria para continuar."); return; }
+    if (!$("f-nome").value.trim()){ e.preventDefault(); erro("Escreva seu nome para a Israela saber quem é."); $("f-nome").focus(); }
+  });
+  desenharAssuntos(); atualizar();
+
+  // ----- cartão de memória que vira sozinho -----
+  var ficha = $("ficha"), indice = 0, virada = false, relogio = null;
+  function virar(){
+    virada = !virada; ficha.classList.toggle("virada", virada);
+    setTimeout(function(){
+      if (virada){ $("termo-pt").textContent = CARTOES[(indice + 1) % CARTOES.length][0]; }
+      else { indice = (indice + 1) % CARTOES.length; $("termo-es").textContent = CARTOES[indice][1]; }
+    }, 400);
+  }
+  function ligar(){ if (!calmo()) relogio = setInterval(virar, 2600); }
+  ficha.addEventListener("click", function(){ clearInterval(relogio); virar(); ligar(); });
+  ligar();
+
+  // ----- contador dos anos de UBA -----
+  var anos = $("anos");
+  if ("IntersectionObserver" in window && !calmo()){
+    new IntersectionObserver(function(entradas, obs){
+      if (!entradas[0].isIntersecting) return;
+      obs.disconnect();
+      var i = 1; anos.textContent = "1";
+      var t = setInterval(function(){ i++; anos.textContent = String(i); if (i >= 5) clearInterval(t); }, 170);
+    }, { threshold: 0.6 }).observe(anos);
+  }
+
+  // ----- assistente automático: responde na hora, dentro do site -----
+  // q = dúvida no botão · k = palavras que ativam (sem acento) · r = resposta · ir/wa = botão de ação · rot = texto do botão
+  var BOT = [
+    { q: "Quanto custa?", k: /preco|valor|quanto|custa|r\$|caro|barato/,
+      r: "Aula individual: R$ 80, com 1 hora. Dupla ou grupo: R$ 60 por pessoa, até 8 pessoas. Revisão de véspera: R$ 100, até 1h30.",
+      ir: "#monte", rot: "Montar minha aula" },
+    { q: "É aula ou consulta?", k: /consulta|atend|doenca|sintoma|remedio|receita|exame/,
+      r: "É aula. Apoio de estudo, não atendimento médico." },
+    { q: "Preciso mandar material?", k: /material|slide|apostila|pdf|resumo|prova antiga|mandar/,
+      r: "Não precisa. Só em casos específicos, e a Israela avisa." },
+    { q: "Dá para marcar em cima da hora?", k: /hoje|amanha|urgente|em cima|vespera|rapido|ultima hora/,
+      r: "Dá, se ela tiver horário livre. Mande o pedido e ela confirma.",
+      ir: "#monte", rot: "Montar minha aula" },
+    { q: "Pode ser em grupo?", k: /grupo|dupla|turma|amig|coleg/,
+      r: "Pode, com até 8 pessoas. Sai R$ 60 por pessoa." },
+    { q: "Como eu pago?", k: /pago|pagar|pagamento|pix|dinheiro|cartao|boleto/,
+      r: "Por Pix ou em dinheiro." },
+    { q: "Quais matérias?", k: /materia|assunto|conteudo|anatom|fisio|bioquim|histo|embrio|farmaco|patolog|semio|micro|imuno|espanhol|idioma|lingua/,
+      r: "Medicina: Anatomia, Histologia e embriologia, Bioquímica, Fisiologia, Microbiologia e imunologia, Patologia, Farmacologia e Semiologia. E também Espanhol.",
+      ir: "#monte", rot: "Escolher a matéria" },
+    { q: "Online ou presencial?", k: /online|presencial|onde|local|cidade|video/,
+      r: "Dos dois jeitos: online ou presencial. Você escolhe no pedido." },
+    { q: "Quem é a Israela?", k: /quem|israela|professora|formada|uba|experiencia|medica/,
+      r: "A Israela cursou 5 anos de Medicina na UBA, em Buenos Aires. Hoje vive no Paraguai, onde segue na Medicina e dá aulas de espanhol." }
+  ];
+  var BOT_NOME = "Israela", conversa = $("bot-conversa");
+  function semAcento(s){ return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+  function balao(classe, texto){
+    var m = document.createElement("div");
+    m.className = "msg " + classe; m.textContent = texto;
+    conversa.appendChild(m); conversa.scrollTop = conversa.scrollHeight;
+    return m;
+  }
+  function acao(m, rotulo, href, fora){
+    var a = document.createElement("a");
+    a.className = "btn btn-2 btn-p"; a.textContent = rotulo; a.href = href;
+    if (fora){ a.target = "_blank"; a.rel = "noopener"; }
+    m.appendChild(a);
+  }
+  function responder(item, pergunta){
+    var m = balao("bot-m", ""), pontos = document.createElement("span");
+    pontos.className = "digitando"; pontos.innerHTML = "<i></i><i></i><i></i>"; m.appendChild(pontos);
+    setTimeout(function(){
+      m.textContent = item ? item.r : "Essa eu não sei responder. Mande sua pergunta direto para a " + BOT_NOME + ":";
+      if (item && item.ir) acao(m, item.rot, item.ir, false);
+      if (item && item.wa) acao(m, item.rot, linkWa(item.wa), true);
+      if (!item) acao(m, "Perguntar no WhatsApp", linkWa("Olá, " + BOT_NOME + "! Tenho uma dúvida: " + pergunta), true);
+      conversa.scrollTop = conversa.scrollHeight;
+    }, calmo() ? 0 : 750);
+  }
+  balao("bot-m", "Oi! Sou o assistente automático da " + BOT_NOME + ". Toque em uma dúvida ou escreva a sua.");
+  BOT.forEach(function(item){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = item.q;
+    b.addEventListener("click", function(){ balao("eu", item.q); responder(item, item.q); });
+    $("bot-chips").appendChild(b);
+  });
+  $("bot-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    var campo = $("bot-texto"), texto = campo.value.trim(), achado = null;
+    if (!texto) return;
+    campo.value = ""; balao("eu", texto);
+    BOT.some(function(item){ if (item.k.test(semAcento(texto))){ achado = item; return true; } return false; });
+    responder(achado, texto);
+  });
+})();
+</script>
+</body>
+</html>
