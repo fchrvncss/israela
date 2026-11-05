@@ -16,12 +16,15 @@
 /* Layout: página de estudo, clara e direta. No topo, um cartão de memória vira sozinho entre português e espanhol
    e uma linha de batimento corre pela tela. O centro é o "monte sua aula": matéria, assunto, formato e pedido.
    Verde marca medicina, vermelho marca espanhol.
+   Brilho suave só em quatro pontos: o cartão de memória (verde na frente, vermelho no verso), a linha de batimento,
+   o botão principal do topo e o bloco da UBA.
    No celular: botões do topo em grade, formatos em linhas compactas (nome à esquerda, preço à direita), uma barra
    fixa embaixo leva ao pedido depois que a matéria é escolhida, e o WhatsApp flutuante vira só o ícone. */
 :root{
   --fundo:#F6F7FA; --cartao:#FFFFFF; --tinta:#16213A; --suave:#566077; --linha:#DCE0EA;
   --med:#0A7D6B; --esp:#D43A34; --sobre-cor:#FFFFFF; --pulso:#E0453F;
   --wa:#25D366; --wa-tinta:#06301A; --erro:#B3261E; --sombra:rgba(22,33,58,.13);
+  --halo:rgba(10,125,107,.34); --halo-e:rgba(212,58,52,.30);
   --titulo:"Bricolage Grotesque","Trebuchet MS","Segoe UI",system-ui,sans-serif;
   --corpo:"DM Sans","Segoe UI",system-ui,-apple-system,sans-serif;
   --t-1:.9375rem; --t0:1.0625rem; --t1:1.25rem;
@@ -30,11 +33,11 @@
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --fundo:#0F1420; --cartao:#171E2E; --tinta:#EEF1F7; --suave:#A7B0C4; --linha:#2B3449;
   --med:#3ECFB2; --esp:#FF7A70; --sobre-cor:#0B1220; --pulso:#FF7A70;
-  --erro:#FF8A80; --sombra:rgba(0,0,0,.45); color-scheme:dark } }
+  --erro:#FF8A80; --sombra:rgba(0,0,0,.45); --halo:rgba(62,207,178,.30); --halo-e:rgba(255,122,112,.28); color-scheme:dark } }
 :root[data-theme="dark"]{
   --fundo:#0F1420; --cartao:#171E2E; --tinta:#EEF1F7; --suave:#A7B0C4; --linha:#2B3449;
   --med:#3ECFB2; --esp:#FF7A70; --sobre-cor:#0B1220; --pulso:#FF7A70;
-  --erro:#FF8A80; --sombra:rgba(0,0,0,.45); color-scheme:dark }
+  --erro:#FF8A80; --sombra:rgba(0,0,0,.45); --halo:rgba(62,207,178,.30); --halo-e:rgba(255,122,112,.28); color-scheme:dark }
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -72,6 +75,7 @@ button,input,textarea{font:inherit}
 .abre h1 .e{color:var(--esp)}
 .lead{font-size:var(--t1);line-height:1.45;color:var(--suave);max-width:36ch;margin-top:16px}
 .abre .acoes{margin-top:26px}
+.abre .btn-1{box-shadow:0 8px 30px var(--halo)}
 
 .pilha{position:relative;justify-self:center;width:min(100%,340px);aspect-ratio:17/11;max-width:100%;perspective:1100px}
 .pilha::before,.pilha::after{content:"";position:absolute;inset:0;border-radius:20px;background:var(--cartao);border:1.5px solid var(--linha)}
@@ -79,8 +83,8 @@ button,input,textarea{font:inherit}
 .pilha::after{transform:rotate(4deg) translate(8px,6px)}
 .ficha{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;padding:0;border:0;background:none;color:inherit;cursor:pointer;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.9,.3,1)}
 .ficha.virada{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;padding:18px 22px;border-radius:20px;background:var(--cartao);border:2px solid var(--med);box-shadow:0 14px 34px var(--sombra);text-align:left;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.face.verso{transform:rotateY(180deg);border-color:var(--esp)}
+.face{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;padding:18px 22px;border-radius:20px;background:var(--cartao);border:2px solid var(--med);box-shadow:0 14px 34px var(--sombra),0 0 64px var(--halo);text-align:left;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.verso{transform:rotateY(180deg);border-color:var(--esp);box-shadow:0 14px 34px var(--sombra),0 0 64px var(--halo-e)}
 .lingua{font:700 .75rem/1.3 var(--corpo);letter-spacing:.16em;text-transform:uppercase;color:var(--med)}
 .verso .lingua{color:var(--esp)}
 .termo{align-self:center;font:800 clamp(2.25rem,7vw,3rem)/1 var(--titulo);letter-spacing:-.03em}
@@ -89,6 +93,8 @@ button,input,textarea{font:inherit}
 .pulso{overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent)}
 .pulso svg{display:block;width:100%;height:72px}
 .pulso .tr{stroke:var(--pulso);stroke-width:2.2;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.pulso .tr.b1{stroke-width:11;opacity:.07}
+.pulso .tr.b2{stroke-width:6;opacity:.16}
 .pulso .corre{animation:corre 1.6s linear infinite}
 @keyframes corre{to{transform:translateX(-80px)}}
 
@@ -180,8 +186,8 @@ button,input,textarea{font:inherit}
 @media (min-width:860px){.sobre .wrap{grid-template-columns:minmax(0,1fr) auto;align-items:center}}
 .sobre p{font-size:var(--t1);line-height:1.5;max-width:50ch;margin-top:12px}
 .sobre .acoes{margin-top:20px}
-.uba{display:grid;gap:2px;justify-items:start;padding:20px 24px;border-radius:20px;background:var(--tinta);color:var(--fundo)}
-.uba b{font:800 3.5rem/1 var(--titulo);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.uba{display:grid;gap:2px;justify-items:start;padding:20px 24px;border-radius:20px;background:var(--tinta);color:var(--fundo);box-shadow:0 14px 48px var(--halo)}
+.uba b{font:800 3.5rem/1 var(--titulo);letter-spacing:-.04em;font-variant-numeric:tabular-nums;text-shadow:0 0 26px var(--halo)}
 .uba span{font-weight:700;line-height:1.3}
 .uba small{font-size:.875rem;opacity:.8}
 
@@ -256,7 +262,7 @@ button,input,textarea{font:inherit}
   <div class="wrap">
     <div>
       <h1>Aulas de <span class="m">medicina</span> e de <span class="e">espanhol</span>.</h1>
-      <p class="lead">Com a Israela, que cursou 5 anos de Medicina na UBA, em Buenos Aires.</p>
+      <p class="lead">Com a Israela: quatro anos de Medicina na UBA, a maior universidade da América Latina.</p>
       <div class="acoes">
         <a class="btn btn-1" href="#monte">Montar minha aula</a>
         <a class="btn btn-2" data-msg="Olá, Israela! Vim pelo site e quero saber mais sobre as aulas." href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>WhatsApp</a>
@@ -276,6 +282,8 @@ button,input,textarea{font:inherit}
   <svg focusable="false">
     <defs>
       <pattern id="batida" width="80" height="72" patternUnits="userSpaceOnUse">
+        <path class="tr b1" d="M0 48h6q5-14 10 0h6l1.5 4 2.5-40 2.5 44 1.5-8h8q9-20 18 0h24"/>
+        <path class="tr b2" d="M0 48h6q5-14 10 0h6l1.5 4 2.5-40 2.5 44 1.5-8h8q9-20 18 0h24"/>
         <path class="tr" d="M0 48h6q5-14 10 0h6l1.5 4 2.5-40 2.5 44 1.5-8h8q9-20 18 0h24"/>
       </pattern>
     </defs>
@@ -285,7 +293,7 @@ button,input,textarea{font:inherit}
 
 <section class="fatos" aria-label="Resumo das aulas">
   <div class="wrap">
-    <span class="fato"><b>5 anos</b> de Medicina na UBA</span>
+    <span class="fato"><b>4 anos</b> de Medicina na UBA</span>
     <span class="fato"><b>A partir de R$ 80</b> por aula</span>
     <span class="fato"><b>Online</b> e presencial</span>
     <span class="fato"><b>Pix</b> ou dinheiro</span>
@@ -385,13 +393,13 @@ button,input,textarea{font:inherit}
   <div class="wrap">
     <div>
       <h2>Quem dá a aula</h2>
-      <p>Israela Fischer cursou 5 anos de Medicina na UBA, a Universidade de Buenos Aires, uma das mais renomadas da América Latina.</p>
+      <p>Israela Fischer tem quatro anos de conhecimento avançado em Medicina pela UBA, a Universidade de Buenos Aires, a maior universidade da América Latina.</p>
       <p>Hoje vive no Paraguai, onde segue na Medicina e também dá aulas de espanhol.</p>
       <div class="acoes">
         <a class="btn btn-2 btn-p" href="https://www.instagram.com/hutscher_/" target="_blank" rel="noopener">Instagram @hutscher_</a>
       </div>
     </div>
-    <div class="uba"><b id="anos">5</b><span>anos de Medicina</span><small>UBA · Universidad de Buenos Aires</small></div>
+    <div class="uba"><b id="anos">4</b><span>anos de Medicina</span><small>UBA · Universidad de Buenos Aires</small></div>
   </div>
 </section>
 
@@ -647,7 +655,7 @@ button,input,textarea{font:inherit}
       if (!entradas[0].isIntersecting) return;
       obs.disconnect();
       var i = 1; anos.textContent = "1";
-      var t = setInterval(function(){ i++; anos.textContent = String(i); if (i >= 5) clearInterval(t); }, 170);
+      var t = setInterval(function(){ i++; anos.textContent = String(i); if (i >= 4) clearInterval(t); }, 170);
     }, { threshold: 0.6 }).observe(anos);
   }
 
@@ -674,7 +682,7 @@ button,input,textarea{font:inherit}
     { q: "Online ou presencial?", k: /online|presencial|onde|local|cidade|video/,
       r: "Dos dois jeitos: online ou presencial. Você escolhe no pedido." },
     { q: "Quem é a Israela?", k: /quem|israela|professora|formada|uba|experiencia|medica/,
-      r: "A Israela cursou 5 anos de Medicina na UBA, em Buenos Aires. Hoje vive no Paraguai, onde segue na Medicina e dá aulas de espanhol." }
+      r: "A Israela tem quatro anos de Medicina na UBA, em Buenos Aires, a maior universidade da América Latina. Hoje vive no Paraguai, onde segue na Medicina e dá aulas de espanhol." }
   ];
   var BOT_NOME = "Israela", conversa = $("bot-conversa");
   function semAcento(s){ return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
