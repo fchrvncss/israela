@@ -373,8 +373,8 @@ button,input,textarea{font:inherit}
         <div class="ok" id="pedido-ok" tabindex="-1" hidden>
           <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14.5 24.5l6.5 6.5 12.5-13.5"/></svg>
           <h3>Pedido enviado!</h3>
-          <p>A Israela vai analisar e confirmar a aula pelo WhatsApp <b id="ok-fone"></b>.</p>
-          <a class="btn btn-2 btn-p" data-msg="Olá, Israela! Acabei de enviar um pedido de aula pelo site." href="https://wa.me/" target="_blank" rel="noopener">Falar com a Israela agora</a>
+          <p>A Israela vai analisar e confirmar a aula pelo WhatsApp <b id="ok-fone"></b>. Para adiantar, avise que o pedido chegou.</p>
+          <a class="btn btn-wa" id="ok-wa" data-msg="Olá, Israela! Acabei de enviar um pedido de aula pelo site." href="https://wa.me/" target="_blank" rel="noopener">Avisar a Israela no WhatsApp</a>
         </div>
       </form>
     </div>
@@ -430,7 +430,7 @@ button,input,textarea{font:inherit}
 (function(){
   // ===== Dados para trocar =====
   var WHATSAPP = "5491176465637";   // número argentino, só algarismos: +54 9 11 7646-5637
-  var ENVIO = "";                   // endereço do Apps Script da planilha de pedidos. Vazio = o pedido vai só pelo WhatsApp.
+  var ENVIO = "https://script.google.com/macros/s/AKfycby96d5CS6McoOxB2XAdmsso21zuB2dxuRliJxIZGYfLSm5nNpATYxnFvL83UqSH0b0/exec";                   // endereço do Apps Script da planilha de pedidos. Vazio = o pedido vai só pelo WhatsApp.
   var MATERIAS = [
     { id: "anatomia",   nome: "Anatomia",                  area: "med", topicos: ["Sistema locomotor", "Cabeça e pescoço", "Tórax", "Abdome e pelve", "Neuroanatomia"] },
     { id: "histologia", nome: "Histologia e embriologia",  area: "med", topicos: ["Tecidos básicos", "Histologia dos sistemas", "Embriologia", "Biologia celular"] },
@@ -617,6 +617,7 @@ button,input,textarea{font:inherit}
     .then(function(){
       $("pedido-campos").hidden = true; $("pedido-ok").hidden = false;
       $("ok-fone").textContent = $("f-fone").value.trim();
+      $("ok-wa").href = linkWa("Olá, Israela! Acabei de enviar um pedido de aula pelo site. Meu nome é " + $("f-nome").value.trim() + ".");
       cantos(); $("pedido-ok").focus();
     })
     .catch(function(){
