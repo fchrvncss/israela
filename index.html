@@ -15,7 +15,9 @@
 <style>
 /* Layout: página de estudo, clara e direta. No topo, um cartão de memória vira sozinho entre português e espanhol
    e uma linha de batimento corre pela tela. O centro é o "monte sua aula": matéria, assunto, formato e pedido.
-   Verde marca medicina, vermelho marca espanhol. */
+   Verde marca medicina, vermelho marca espanhol.
+   No celular: botões do topo em grade, formatos em linhas compactas (nome à esquerda, preço à direita), uma barra
+   fixa embaixo leva ao pedido depois que a matéria é escolhida, e o WhatsApp flutuante vira só o ícone. */
 :root{
   --fundo:#F6F7FA; --cartao:#FFFFFF; --tinta:#16213A; --suave:#566077; --linha:#DCE0EA;
   --med:#0A7D6B; --esp:#D43A34; --sobre-cor:#FFFFFF; --pulso:#E0453F;
@@ -40,7 +42,7 @@ body{margin:0;background:var(--fundo);color:var(--tinta);font:400 var(--t0)/1.55
 h1,h2,h3,p,dl{margin:0}
 h1,h2{text-wrap:balance}
 a{color:inherit}
-button{font:inherit}
+button,input,textarea{font:inherit}
 .wrap{max-width:1120px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 :focus-visible{outline:3px solid var(--med);outline-offset:3px;border-radius:6px}
 
@@ -51,11 +53,11 @@ button{font:inherit}
 .marca .pulso-l{stroke:var(--med);stroke-width:2.2}
 .menu{display:flex;align-items:center;gap:8px clamp(14px,2.2vw,26px);flex-wrap:wrap;font-weight:500;font-size:var(--t-1)}
 .menu a{text-decoration:none}
-.menu a:not(.btn):hover{text-decoration:underline;text-underline-offset:4px}
+@media (hover:hover){.menu a:not(.btn):hover{text-decoration:underline;text-underline-offset:4px}}
 @media (max-width:700px){.menu a:not(.btn){display:none}}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:13px 22px;border-radius:14px;font:700 1rem/1.15 var(--corpo);text-decoration:none;text-align:center;border:1.5px solid transparent;cursor:pointer;transition:transform .15s ease}
-.btn:hover{transform:translateY(-2px)}
+@media (hover:hover){.btn:hover{transform:translateY(-2px)}}
 .btn svg{flex:none}
 .btn-1{background:var(--tinta);color:var(--fundo)}
 .btn-2{border-color:var(--tinta);background:transparent;color:var(--tinta)}
@@ -110,7 +112,7 @@ button{font:inherit}
 .tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 @media (min-width:620px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .tile{min-height:56px;padding:12px 14px;border:1.5px solid var(--linha);border-radius:14px;background:var(--cartao);color:var(--tinta);font-weight:700;line-height:1.2;text-align:left;cursor:pointer;transition:transform .15s ease,border-color .15s ease;min-width:0;overflow-wrap:anywhere}
-.tile:hover{border-color:var(--tinta);transform:translateY(-2px)}
+@media (hover:hover){.tile:hover{border-color:var(--tinta);transform:translateY(-2px)}}
 .tile[aria-pressed="true"]{background:var(--med);border-color:var(--med);color:var(--sobre-cor);animation:pop .3s ease}
 .tile.esp{border-color:var(--esp)}
 .tile.esp[aria-pressed="true"]{background:var(--esp);border-color:var(--esp)}
@@ -119,7 +121,7 @@ button{font:inherit}
 .chips.surge{animation:surge .35s ease}
 @keyframes surge{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
 .chip{min-height:44px;padding:8px 16px;border:1.5px solid var(--linha);border-radius:999px;background:var(--cartao);color:var(--tinta);font-weight:500;font-size:var(--t-1);line-height:1.2;cursor:pointer;transition:transform .15s ease,border-color .15s ease}
-.chip:hover{border-color:var(--tinta);transform:translateY(-1px)}
+@media (hover:hover){.chip:hover{border-color:var(--tinta);transform:translateY(-1px)}}
 .chip[aria-pressed="true"]{background:var(--tinta);border-color:var(--tinta);color:var(--fundo)}
 .chip.especial{border-style:dashed;border-color:var(--suave);font-weight:700}
 .chip.especial[aria-pressed="true"]{border-style:solid;border-color:var(--tinta)}
@@ -147,7 +149,7 @@ button{font:inherit}
 .direto a{color:var(--tinta);font-weight:700}
 
 .pedido{display:grid;gap:14px;padding:22px;background:var(--cartao);border:1.5px solid var(--tinta);border-radius:20px;box-shadow:0 14px 34px var(--sombra);min-width:0;scroll-margin-top:16px}
-@media (min-width:960px){.pedido{position:sticky;top:calc(16px + env(safe-area-inset-top,0px))}}
+@media (min-width:960px) and (min-height:900px){.pedido{position:sticky;top:calc(16px + env(safe-area-inset-top,0px))}}
 .pedido h3{font:800 1.1875rem/1.2 var(--titulo)}
 .resumo{display:grid;gap:8px}
 .resumo div{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px;font-size:var(--t-1)}
@@ -157,7 +159,19 @@ button{font:inherit}
 .total small{font:500 .875rem/1.3 var(--corpo);color:var(--suave);letter-spacing:0;margin-left:6px}
 .campo{display:grid;gap:6px;min-width:0}
 .campo label{font-weight:700;font-size:var(--t-1)}
-.campo input{width:100%;min-height:48px;padding:10px 14px;border:1.5px solid var(--linha);border-radius:12px;background:var(--fundo);color:inherit;font:inherit}
+.campos{display:grid;gap:14px;min-width:0}
+.campo label small,.campo>small{font-weight:500;font-size:.875rem;color:var(--suave)}
+.campo input,.campo textarea{width:100%;min-height:48px;padding:10px 14px;border:1.5px solid var(--linha);border-radius:12px;background:var(--fundo);color:inherit;font:inherit;font-size:1rem}
+.campo textarea{min-height:92px;line-height:1.45;resize:vertical}
+.pote{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.com-envio #enviar{background:transparent;border-color:var(--tinta);color:var(--tinta)}
+.ok{display:grid;gap:10px;justify-items:center;text-align:center;padding-block:14px;animation:surge .35s ease}
+.ok:focus{outline:none}
+.ok svg{width:64px;height:64px;fill:none;stroke:var(--med);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.ok svg path{stroke-dasharray:30;stroke-dashoffset:30;animation:risca .5s ease .25s forwards}
+@keyframes risca{to{stroke-dashoffset:0}}
+.ok p{max-width:38ch;color:var(--suave)}
+.ok b{color:var(--tinta);font-variant-numeric:tabular-nums;white-space:nowrap}
 .campo ::placeholder{color:var(--suave);opacity:.8}
 .erro{color:var(--erro);font-weight:700;font-size:var(--t-1)}
 .aviso{font-size:.875rem;color:var(--suave)}
@@ -194,7 +208,32 @@ button{font:inherit}
 .fim{border-top:1.5px solid var(--linha)}
 .fim .wrap{display:flex;flex-wrap:wrap;gap:8px 32px;justify-content:space-between;padding-block:26px 104px;font-size:var(--t-1);color:var(--suave)}
 .fim a{color:var(--tinta);font-weight:700;text-decoration:none}
-.flutua{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;border-radius:999px;box-shadow:0 8px 24px var(--sombra)}
+.flutua{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;border-radius:999px;box-shadow:0 8px 24px var(--sombra);transition:transform .25s ease,opacity .25s ease}
+.flutua.some{opacity:0;transform:scale(.6);pointer-events:none}
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:21;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--cartao);border-top:1.5px solid var(--tinta);box-shadow:0 -8px 24px var(--sombra);animation:sobe .3s ease}
+@keyframes sobe{from{transform:translateY(100%)}to{transform:none}}
+.barra p{display:grid;min-width:0;line-height:1.25}
+.barra b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.barra span{font-size:var(--t-1);color:var(--suave);font-variant-numeric:tabular-nums}
+.barra .btn{flex:none}
+@media (min-width:960px){.barra{display:none}}
+@media (max-width:760px){
+  .flutua{width:56px;height:56px;min-height:0;padding:0}
+  .flutua span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .flutua svg{width:26px;height:26px}
+  .fim .wrap{padding-bottom:92px}
+}
+@media (max-width:560px){
+  .abre .acoes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .abre .acoes .btn{padding-inline:12px}
+  .abre .acoes .btn-1{grid-column:1/-1}
+  .chip{padding:8px 13px;font-size:.875rem}
+  .formatos label{grid-template-columns:minmax(0,1fr) auto;column-gap:10px;align-items:center;padding:12px 14px}
+  .formatos .preco{grid-column:2;grid-row:1/3;font-size:1.375rem;text-align:right}
+  .formatos small{grid-column:1}
+  .pedido{padding:18px 16px}
+  .uba{justify-self:start}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -220,7 +259,7 @@ button{font:inherit}
       <p class="lead">Com a Israela, que cursou 5 anos de Medicina na UBA, em Buenos Aires.</p>
       <div class="acoes">
         <a class="btn btn-1" href="#monte">Montar minha aula</a>
-        <a class="btn btn-2" data-msg="Olá, Israela! Vim pelo site e quero saber mais sobre as aulas." href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>Falar com a Israela</a>
+        <a class="btn btn-2" data-msg="Olá, Israela! Vim pelo site e quero saber mais sobre as aulas." href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>WhatsApp</a>
         <a class="btn btn-2" href="https://www.instagram.com/hutscher_/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a>
       </div>
     </div>
@@ -256,7 +295,7 @@ button{font:inherit}
 <section class="bloco" id="monte">
   <div class="wrap">
     <h2>Monte sua aula</h2>
-    <p class="intro">Escolha a matéria e o assunto. A Israela já recebe sabendo o que preparar.</p>
+    <p class="intro">Escolha a matéria, o assunto e o formato. A Israela recebe o pedido pronto.</p>
     <div class="monta">
       <div>
         <div class="passo">
@@ -294,29 +333,49 @@ button{font:inherit}
             <span class="pagar">Pagamento por Pix ou em dinheiro.</span>
           </div>
         </div>
-        <p class="direto">Prefere explicar com as suas palavras? <a data-msg="Olá, Israela! Quero uma aula, mas prefiro te explicar o que preciso." href="https://wa.me/" target="_blank" rel="noopener">Converse direto com a Israela</a>.</p>
+        <p class="direto">Prefere combinar por mensagem? <a data-msg="Olá, Israela! Quero uma aula, mas prefiro te explicar o que preciso." href="https://wa.me/" target="_blank" rel="noopener">Converse direto com a Israela</a>.</p>
       </div>
 
       <form class="pedido" id="pedido" novalidate>
-        <h3>Seu pedido</h3>
-        <dl class="resumo">
-          <div><dt>Matéria</dt><dd id="r-materia">—</dd></div>
-          <div><dt>Assunto</dt><dd id="r-assunto">—</dd></div>
-          <div><dt>Formato</dt><dd id="r-formato">Aula individual</dd></div>
-          <div><dt>Onde</dt><dd id="r-onde">Online</dd></div>
-        </dl>
-        <p class="total" id="r-total">R$ 80<small>1 hora</small></p>
-        <div class="campo">
-          <label for="f-nome">Seu nome</label>
-          <input type="text" id="f-nome" autocomplete="name" placeholder="Como você se chama?">
+        <div class="campos" id="pedido-campos">
+          <h3>Seu pedido</h3>
+          <dl class="resumo">
+            <div><dt>Matéria</dt><dd id="r-materia">—</dd></div>
+            <div><dt>Assunto</dt><dd id="r-assunto">—</dd></div>
+            <div><dt>Formato</dt><dd id="r-formato">Aula individual</dd></div>
+            <div><dt>Onde</dt><dd id="r-onde">Online</dd></div>
+          </dl>
+          <p class="total" id="r-total">R$ 80<small>1 hora</small></p>
+          <div class="campo">
+            <label for="f-desc">Como você quer a sua aula? <small>(opcional)</small></label>
+            <textarea id="f-desc" rows="3" maxlength="600" placeholder="Ex.: prova de Fisiologia na sexta, minha dúvida é em potencial de ação."></textarea>
+          </div>
+          <div class="campo">
+            <label for="f-nome">Seu nome</label>
+            <input type="text" id="f-nome" autocomplete="name" placeholder="Como você se chama?">
+          </div>
+          <div class="campo so-site" hidden>
+            <label for="f-fone">Seu WhatsApp</label>
+            <input type="tel" id="f-fone" autocomplete="tel" inputmode="tel" placeholder="+55 11 99999-9999" aria-describedby="fone-dica">
+            <small id="fone-dica">Fora do Brasil? Comece com o código do país, como +595.</small>
+          </div>
+          <div class="campo">
+            <label for="f-quando">Para quando? <small>(opcional)</small></label>
+            <input type="date" id="f-quando">
+          </div>
+          <div class="pote" aria-hidden="true"><label for="f-site">Não preencha este campo</label><input type="text" id="f-site" tabindex="-1" autocomplete="off"></div>
+          <p class="erro" id="erro" role="alert" hidden></p>
+          <button type="button" class="btn btn-1 so-site" id="enviar-site" hidden>Enviar pedido</button>
+          <a class="btn btn-wa" id="enviar" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>Enviar pelo WhatsApp</a>
+          <p class="aviso so-site" hidden>A Israela analisa o pedido e confirma a aula pelo seu WhatsApp.</p>
+          <p class="aviso so-wa">O WhatsApp abre com o pedido pronto. É só enviar. A Israela confirma por lá.</p>
         </div>
-        <div class="campo">
-          <label for="f-quando">Para quando? (opcional)</label>
-          <input type="date" id="f-quando">
+        <div class="ok" id="pedido-ok" tabindex="-1" hidden>
+          <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14.5 24.5l6.5 6.5 12.5-13.5"/></svg>
+          <h3>Pedido enviado!</h3>
+          <p>A Israela vai analisar e confirmar a aula pelo WhatsApp <b id="ok-fone"></b>.</p>
+          <a class="btn btn-2 btn-p" data-msg="Olá, Israela! Acabei de enviar um pedido de aula pelo site." href="https://wa.me/" target="_blank" rel="noopener">Falar com a Israela agora</a>
         </div>
-        <p class="erro" id="erro" role="alert" hidden></p>
-        <a class="btn btn-wa" id="enviar" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>Enviar pelo WhatsApp</a>
-        <p class="aviso">O WhatsApp abre com o pedido pronto. É só enviar.</p>
       </form>
     </div>
   </div>
@@ -361,11 +420,17 @@ button{font:inherit}
   </div>
 </footer>
 
-<a class="btn btn-wa flutua" data-msg="Olá, Israela! Vim pelo site e quero saber mais sobre as aulas." href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>WhatsApp</a>
+<div class="barra" id="barra" hidden>
+  <p><b id="b-materia"></b><span id="b-total"></span></p>
+  <a class="btn btn-1 btn-p" href="#pedido">Ver pedido</a>
+</div>
+
+<a class="btn btn-wa flutua" aria-label="Falar com a Israela no WhatsApp" data-msg="Olá, Israela! Vim pelo site e quero saber mais sobre as aulas." href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg><span>WhatsApp</span></a>
 <script>
 (function(){
   // ===== Dados para trocar =====
   var WHATSAPP = "5491176465637";   // número argentino, só algarismos: +54 9 11 7646-5637
+  var ENVIO = "";                   // endereço do Apps Script da planilha de pedidos. Vazio = o pedido vai só pelo WhatsApp.
   var MATERIAS = [
     { id: "anatomia",   nome: "Anatomia",                  area: "med", topicos: ["Sistema locomotor", "Cabeça e pescoço", "Tórax", "Abdome e pelve", "Neuroanatomia"] },
     { id: "histologia", nome: "Histologia e embriologia",  area: "med", topicos: ["Tecidos básicos", "Histologia dos sistemas", "Embriologia", "Biologia celular"] },
@@ -450,7 +515,7 @@ button{font:inherit}
     return estado.topicos.length ? estado.topicos.join(", ") : "—";
   }
   function mensagem(){
-    var m = materia(), f = formato(), F = FORMATOS[f], nome = $("f-nome").value.trim(), q = $("f-quando").value;
+    var m = materia(), f = formato(), F = FORMATOS[f], nome = $("f-nome").value.trim(), q = $("f-quando").value, desc = $("f-desc").value.trim();
     var l = ["Olá, Israela! Meu nome é " + (nome || "[seu nome]") + "."];
     l.push(m ? "Quero uma aula de " + m.nome + "." : "Quero marcar uma aula.");
     if (estado.modo === "geral") l.push("Quero uma revisão geral da matéria.");
@@ -460,6 +525,7 @@ button{font:inherit}
     else l.push("Formato: " + F.rotulo.toLowerCase() + " (R$ " + F.preco + ").");
     l.push("Onde: " + onde() + ".");
     if (q) l.push("Para quando: " + diaTexto(q) + ".");
+    if (desc) l.push("Como eu quero a aula: " + desc);
     l.push("(Pedido feito pelo site)");
     return l.join("\n");
   }
@@ -483,8 +549,46 @@ button{font:inherit}
     nota.textContent = F.nota; total.appendChild(nota);
     $("enviar").href = linkWa(mensagem());
     if (m && $("f-nome").value.trim()) $("erro").hidden = true;
+    $("b-materia").textContent = m ? m.nome : "";
+    $("b-total").textContent = total.firstChild.textContent + " · " + F.rotulo.toLowerCase();
+    cantos();
   }
   function erro(texto){ var e = $("erro"); e.textContent = texto; e.hidden = false; }
+  function totalTexto(){ var f = formato(), F = FORMATOS[f]; return "R$ " + (f === "grupo" ? F.preco * estado.pessoas + " (" + F.nota + ")" : F.preco + " (" + F.nota + ")"); }
+  function fone(){
+    var bruto = $("f-fone").value.trim(), n = bruto.replace(/\D/g, "");
+    if (bruto.charAt(0) !== "+" && n.length <= 11) n = "55" + n;   // sem código do país: assume Brasil
+    return n;
+  }
+  function foneOk(){
+    var bruto = $("f-fone").value.trim(), n = bruto.replace(/\D/g, "").length;
+    return bruto.charAt(0) === "+" ? (n >= 10 && n <= 15) : (n >= 10 && n <= 13);
+  }
+  function faltando(precisaFone){
+    if (!materia()){ $("monte").scrollIntoView({ behavior: calmo() ? "auto" : "smooth", block: "start" }); return "Escolha a matéria para continuar."; }
+    if (!$("f-nome").value.trim()){ $("f-nome").focus(); return "Escreva seu nome para a Israela saber quem é."; }
+    if (precisaFone && !foneOk()){ $("f-fone").focus(); return "Informe seu WhatsApp com DDD para a Israela confirmar a aula."; }
+    return "";
+  }
+
+  // ----- barra do pedido (celular) e WhatsApp flutuante: aparecem só quando ajudam -----
+  var flutua = document.querySelector(".flutua"), naTela = {};
+  function cantos(){
+    var barra = !!estado.materia && !naTela.pedido && window.matchMedia("(max-width: 959px)").matches && $("pedido-ok").hidden;
+    var estreito = window.matchMedia("(max-width: 760px)").matches;
+    $("barra").hidden = !barra;
+    flutua.classList.toggle("some", !!(barra || naTela.topo || (estreito && (naTela.pedido || naTela.bot))));
+  }
+  if ("IntersectionObserver" in window){
+    var olho = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(en){ naTela[en.target.dataset.olho] = en.isIntersecting; });
+      cantos();
+    }, { threshold: 0.15 });
+    [[".abre .acoes", "topo"], ["#pedido", "pedido"], [".bot", "bot"]].forEach(function(par){
+      var el = document.querySelector(par[0]); el.dataset.olho = par[1]; olho.observe(el);
+    });
+  }
+  window.addEventListener("resize", cantos);
 
   document.querySelectorAll('input[name="fmt"], input[name="onde"]').forEach(function(r){ r.addEventListener("change", atualizar); });
   $("menos").addEventListener("click", function(){ estado.pessoas = Math.max(2, estado.pessoas - 1); atualizar(); });
@@ -494,8 +598,31 @@ button{font:inherit}
   $("pedido").addEventListener("input", atualizar);
   $("pedido").addEventListener("submit", function(e){ e.preventDefault(); });
   $("enviar").addEventListener("click", function(e){
-    if (!materia()){ e.preventDefault(); erro("Escolha a matéria para continuar."); return; }
-    if (!$("f-nome").value.trim()){ e.preventDefault(); erro("Escreva seu nome para a Israela saber quem é."); $("f-nome").focus(); }
+    var falta = faltando(false);
+    if (falta){ e.preventDefault(); erro(falta); }
+  });
+  // envio direto pelo site (planilha de pedidos), quando o endereço estiver configurado
+  document.querySelectorAll(".so-site").forEach(function(el){ el.hidden = !ENVIO; });
+  document.querySelectorAll(".so-wa").forEach(function(el){ el.hidden = !!ENVIO; });
+  $("pedido").classList.toggle("com-envio", !!ENVIO);
+  $("enviar-site").addEventListener("click", function(){
+    var falta = faltando(true), botaoEnvio = $("enviar-site"), m = materia(), f = formato(), q = $("f-quando").value;
+    if (falta){ erro(falta); return; }
+    $("erro").hidden = true; botaoEnvio.disabled = true; botaoEnvio.textContent = "Enviando…";
+    fetch(ENVIO, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ site: "israela", nome: $("f-nome").value.trim(), whatsapp: fone(),
+        aula: $("r-formato").textContent + " · " + $("r-onde").textContent, horario: q ? diaTexto(q) : "A combinar",
+        tema: m.nome + (assuntoTexto() !== "—" ? ": " + assuntoTexto() : ""), descricao: $("f-desc").value.trim(),
+        valor: totalTexto(), hp: $("f-site").value }) })
+    .then(function(){
+      $("pedido-campos").hidden = true; $("pedido-ok").hidden = false;
+      $("ok-fone").textContent = $("f-fone").value.trim();
+      cantos(); $("pedido-ok").focus();
+    })
+    .catch(function(){
+      botaoEnvio.disabled = false; botaoEnvio.textContent = "Enviar pedido";
+      erro("Não foi possível enviar agora. Tente de novo ou use o botão do WhatsApp.");
+    });
   });
   desenharAssuntos(); atualizar();
 
@@ -534,7 +661,7 @@ button{font:inherit}
     { q: "Preciso mandar material?", k: /material|slide|apostila|pdf|resumo|prova antiga|mandar/,
       r: "Não precisa. Só em casos específicos, e a Israela avisa." },
     { q: "Dá para marcar em cima da hora?", k: /hoje|amanha|urgente|em cima|vespera|rapido|ultima hora/,
-      r: "Dá, se ela tiver horário livre. Mande o pedido e ela confirma.",
+      r: "Dá, se ela tiver horário livre. Mande o pedido e ela confirma pelo WhatsApp.",
       ir: "#monte", rot: "Montar minha aula" },
     { q: "Pode ser em grupo?", k: /grupo|dupla|turma|amig|coleg/,
       r: "Pode, com até 8 pessoas. Sai R$ 60 por pessoa." },
