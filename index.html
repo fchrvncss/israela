@@ -83,12 +83,17 @@ button,input,textarea{font:inherit}
 .pilha::after{transform:rotate(4deg) translate(8px,6px)}
 .ficha{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;padding:0;border:0;background:none;color:inherit;cursor:pointer;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.9,.3,1)}
 .ficha.virada{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;padding:18px 22px;border-radius:20px;background:var(--cartao);border:2px solid var(--med);box-shadow:0 14px 34px var(--sombra),0 0 64px var(--halo);text-align:left;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;grid-template-columns:minmax(0,1fr) auto;column-gap:10px;padding:18px 22px;border-radius:20px;background:var(--cartao);border:2px solid var(--med);box-shadow:0 14px 34px var(--sombra),0 0 64px var(--halo);text-align:left;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .face.verso{transform:rotateY(180deg);border-color:var(--esp);box-shadow:0 14px 34px var(--sombra),0 0 64px var(--halo-e)}
 .lingua{font:700 .75rem/1.3 var(--corpo);letter-spacing:.16em;text-transform:uppercase;color:var(--med)}
 .verso .lingua{color:var(--esp)}
 .termo{align-self:center;font:800 clamp(2.25rem,7vw,3rem)/1 var(--titulo);letter-spacing:-.03em}
+.lingua,.dica{grid-column:1/-1}
 .dica{font-size:.8125rem;color:var(--suave)}
+.figura{align-self:center;width:clamp(58px,19vw,78px);height:auto;aspect-ratio:1;color:var(--med);fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.verso .figura{color:var(--esp)}
+.figura .leve{opacity:.45}
+.figura .cheio{fill:currentColor;stroke:none}
 
 .pulso{overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent)}
 .pulso svg{display:block;width:100%;height:72px}
@@ -179,6 +184,16 @@ button,input,textarea{font:inherit}
 .ok p{max-width:38ch;color:var(--suave)}
 .ok b{color:var(--tinta);font-variant-numeric:tabular-nums;white-space:nowrap}
 .campo ::placeholder{color:var(--suave);opacity:.8}
+.pix{display:grid;gap:12px;padding:16px;border:1.5px solid var(--linha);border-radius:16px;background:var(--fundo);min-width:0}
+.pix h4{margin:0;font:800 1rem/1.2 var(--titulo)}
+.pix-valor{font-size:var(--t-1);color:var(--suave)}
+.pix-valor b{margin-right:6px;font:800 1.375rem/1 var(--titulo);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--tinta)}
+.pix-qr{justify-self:center;width:164px;max-width:100%;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#fff}
+.pix-qr svg{display:block;width:100%;height:100%}
+.pix-lado{display:grid;gap:8px;min-width:0;font-size:.875rem;line-height:1.4;color:var(--suave)}
+.pix-codigo{width:100%;min-width:0;min-height:44px;padding:8px 12px;border:1.5px solid var(--linha);border-radius:10px;background:var(--cartao);color:var(--tinta);font:500 .8125rem/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;text-overflow:ellipsis}
+.pix-feito{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:700;cursor:pointer}
+.pix-feito input{flex:none;width:22px;height:22px;margin:0;accent-color:var(--med)}
 .erro{color:var(--erro);font-weight:700;font-size:var(--t-1)}
 .aviso{font-size:.875rem;color:var(--suave)}
 
@@ -271,8 +286,8 @@ button,input,textarea{font:inherit}
     </div>
     <div class="pilha">
       <button type="button" class="ficha" id="ficha" aria-label="Cartão de memória em português e espanhol. Toque para virar.">
-        <span class="face frente"><span class="lingua">Português</span><span class="termo" id="termo-pt">coração</span><span class="dica">toque para virar</span></span>
-        <span class="face verso"><span class="lingua">Español</span><span class="termo" id="termo-es">corazón</span><span class="dica">toque para virar</span></span>
+        <span class="face frente"><span class="lingua">Português</span><span class="termo" id="termo-pt">coração</span><svg class="figura" id="fig-pt" viewBox="0 0 48 48" aria-hidden="true"></svg><span class="dica">toque para virar</span></span>
+        <span class="face verso"><span class="lingua">Español</span><span class="termo" id="termo-es">corazón</span><svg class="figura" id="fig-es" viewBox="0 0 48 48" aria-hidden="true"></svg><span class="dica">toque para virar</span></span>
       </button>
     </div>
   </div>
@@ -371,17 +386,29 @@ button,input,textarea{font:inherit}
             <label for="f-quando">Para quando? <small>(opcional)</small></label>
             <input type="date" id="f-quando">
           </div>
+          <div class="pix" id="pix" hidden>
+            <h4>Pix para confirmar</h4>
+            <p class="pix-valor"><b id="pix-valor">R$ 0,00</b>para <span id="pix-nome"></span></p>
+            <div class="pix-qr" id="pix-qr" hidden></div>
+            <div class="pix-lado">
+              <p>Leia o QR Code no app do seu banco. No celular, copie o código e cole em Pix copia e cola.</p>
+              <input class="pix-codigo" id="pix-codigo" type="text" readonly aria-label="Código Pix copia e cola">
+              <button type="button" class="btn btn-2 btn-p" id="pix-copiar">Copiar código Pix</button>
+              <span>Chave Pix: <b id="pix-chave"></b></span>
+            </div>
+            <label class="pix-feito" for="pix-feito"><input type="checkbox" id="pix-feito">Já fiz o Pix</label>
+          </div>
           <div class="pote" aria-hidden="true"><label for="f-site">Não preencha este campo</label><input type="text" id="f-site" tabindex="-1" autocomplete="off"></div>
           <p class="erro" id="erro" role="alert" hidden></p>
           <button type="button" class="btn btn-1 so-site" id="enviar-site" hidden>Enviar pedido</button>
           <a class="btn btn-wa" id="enviar" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>Enviar pelo WhatsApp</a>
-          <p class="aviso so-site" hidden>A Israela analisa o pedido e confirma a aula pelo seu WhatsApp.</p>
+          <p class="aviso so-site" id="aviso-site" hidden>A Israela analisa o pedido e confirma a aula pelo seu WhatsApp.</p>
           <p class="aviso so-wa">O WhatsApp abre com o pedido pronto. É só enviar. A Israela confirma por lá.</p>
         </div>
         <div class="ok" id="pedido-ok" tabindex="-1" hidden>
           <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14.5 24.5l6.5 6.5 12.5-13.5"/></svg>
           <h3>Pedido enviado!</h3>
-          <p>A Israela vai analisar e confirmar a aula pelo WhatsApp <b id="ok-fone"></b>. Para adiantar, avise que o pedido chegou.</p>
+          <p><span id="ok-frase">A Israela vai analisar e confirmar a aula pelo WhatsApp</span> <b id="ok-fone"></b>. <span id="ok-dica">Para adiantar, avise que o pedido chegou.</span></p>
           <a class="btn btn-wa" id="ok-wa" data-msg="Olá, Israela! Acabei de enviar um pedido de aula pelo site." href="https://wa.me/" target="_blank" rel="noopener">Avisar a Israela no WhatsApp</a>
         </div>
       </form>
@@ -434,11 +461,15 @@ button,input,textarea{font:inherit}
 </div>
 
 <a class="btn btn-wa flutua" aria-label="Falar com a Israela no WhatsApp" data-msg="Olá, Israela! Vim pelo site e quero saber mais sobre as aulas." href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg><span>WhatsApp</span></a>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
 (function(){
   // ===== Dados para trocar =====
   var WHATSAPP = "5491176465637";   // número argentino, só algarismos: +54 9 11 7646-5637
   var ENVIO = "https://script.google.com/macros/s/AKfycbyziXqwU-zz7_VHgyn5JBeyH6IyycFtDhb8Z5E4LjSTgBiEFY5LejO-JE0JEbUDJPNZQA/exec";                   // endereço do Apps Script da planilha de pedidos da Israela. Vazio = o pedido vai só pelo WhatsApp.
+  // Pix para confirmar a aula. chave vazia = sem Pix no site (o pedido segue como antes).
+  // chave: celular com +55, CPF só com números, e-mail ou chave aleatória. nome e cidade: sem acentos.
+  var PIX = { chave: "", nome: "Israela Fischer", cidade: "BRASIL", mostra: "", quem: "Israela" };
   var MATERIAS = [
     { id: "anatomia",   nome: "Anatomia",                  area: "med", topicos: ["Sistema locomotor", "Cabeça e pescoço", "Tórax", "Abdome e pelve", "Neuroanatomia"] },
     { id: "histologia", nome: "Histologia e embriologia",  area: "med", topicos: ["Tecidos básicos", "Histologia dos sistemas", "Embriologia", "Biologia celular"] },
@@ -455,7 +486,18 @@ button,input,textarea{font:inherit}
     grupo:      { rotulo: "Dupla ou grupo",     preco: 60,  nota: "R$ 60 por pessoa" },
     vespera:    { rotulo: "Revisão de véspera", preco: 100, nota: "até 1h30 de aula" }
   };
-  var CARTOES = [["coração", "corazón"], ["joelho", "rodilla"], ["rim", "riñón"], ["osso", "hueso"], ["fígado", "hígado"], ["pescoço", "cuello"], ["febre", "fiebre"], ["prova", "examen"]];
+  var CARTOES = [["coração", "corazón", "coracao"], ["joelho", "rodilla", "joelho"], ["rim", "riñón", "rim"], ["osso", "hueso", "osso"], ["fígado", "hígado", "figado"], ["pescoço", "cuello", "pescoco"], ["febre", "fiebre", "febre"], ["prova", "examen", "prova"]];
+  // desenho de cada cartão, em traço (caixa de 48 x 48)
+  var FIGURAS = {
+    coracao: "<path d='M24 41C11 31.5 5 24 5 16.2 5 10.5 9.3 6.5 14.5 6.5c3.8 0 7.3 2.1 9.5 5.5 2.2-3.4 5.7-5.5 9.5-5.5C38.7 6.5 43 10.5 43 16.2 43 24 37 31.5 24 41z'/><path d='M11.5 22h6.5l2.8-5.5 4.2 10.5 3-5h8.5'/>",
+    joelho: "<path class='leve' d='M7 9l21 4.5M7 21.5L23 25M35.5 24l-2.5 15 7 2.5V43H24.5l1.5-13.5'/><path d='M28 13.5c5.5 1.2 8.2 5.2 7.5 10.5M23 25c1.8 .6 3 2.3 3 4.5'/><circle cx='29.5' cy='20.5' r='3.2'/>",
+    rim: "<path d='M28 5c8.5 0 14.5 8 14.5 18S37 43 28.5 43c-6 0-10.5-4-10.5-9.5 0-4.5 3.5-5.5 3.5-10.5S18 17 18 13c0-5 4-8 10-8z'/><path d='M21.5 23H15c-4 0-5.5 2.5-5.5 6.5V43'/><path class='leve' d='M28 13c4 1 6.5 5 6.5 10s-2.5 9-6 10.5'/>",
+    osso: "<g transform='rotate(-45 24 24)'><path d='M14.5 21A5.3 5.3 0 1 0 6 21.5Q7.8 24 6 26.5A5.3 5.3 0 1 0 14.5 27H33.5A5.3 5.3 0 1 0 42 26.5Q40.2 24 42 21.5A5.3 5.3 0 1 0 33.5 21z'/></g>",
+    figado: "<path d='M5 21c0-7.5 5.5-12 13.5-12H33c6.5 0 10.5 3 10.5 7.5 0 3.8-3 6.2-8 7-5.5 .9-8.5 3-11.5 7.5-2.8 4.2-6 6.5-10 6.5C8.5 37.5 5 31 5 21z'/><path class='leve' d='M25.5 9.5c-1.5 5-1.2 9.5 .8 14'/>",
+    pescoco: "<ellipse class='leve' cx='24' cy='13.5' rx='8' ry='9'/><path class='leve' d='M19 31c-.5 1.3-1.8 2.2-3.5 2.9L8.5 36.5C6.3 37.4 5 39.3 5 41.5V43M29 31c.5 1.3 1.8 2.2 3.5 2.9l7 2.6c2.2 .9 3.5 2.8 3.5 5V43'/><path d='M19 21.5V31M29 21.5V31'/>",
+    febre: "<path d='M19.5 9a4.5 4.5 0 0 1 9 0v17.2a8.5 8.5 0 1 1-9 0z'/><path d='M24 15v14'/><circle class='cheio' cx='24' cy='33' r='3.6'/><path class='leve' d='M33 11h4M33 17h4M33 23h4'/>",
+    prova: "<path d='M21 42H9V6h17.5L34 13.5V19'/><path class='leve' d='M26.5 6v7.5H34M14.5 20h10M14.5 26.5h7M14.5 33h4'/><path d='M40.5 21.5l4 4-13.5 13.5-5.5 1.5 1.5-5.5z'/>"
+  };
 
   function $(id){ return document.getElementById(id); }
   function linkWa(texto){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto); }
@@ -556,12 +598,60 @@ button,input,textarea{font:inherit}
     total.textContent = "R$ " + (f === "grupo" ? F.preco * estado.pessoas : F.preco);
     nota.textContent = F.nota; total.appendChild(nota);
     $("enviar").href = linkWa(mensagem());
+    desenharPix(f === "grupo" ? F.preco * estado.pessoas : F.preco);
     if (m && $("f-nome").value.trim()) $("erro").hidden = true;
     $("b-materia").textContent = m ? m.nome : "";
     $("b-total").textContent = total.firstChild.textContent + " · " + F.rotulo.toLowerCase();
     cantos();
   }
   function erro(texto){ var e = $("erro"); e.textContent = texto; e.hidden = false; }
+
+  // ----- Pix: QR Code e "copia e cola" já com o valor da aula escolhida -----
+  // O site não tem como saber se o Pix caiu: a professora confere no app do banco antes de confirmar a aula.
+  var pixValor = 0;
+  function campoPix(id, v){ return id + (v.length < 10 ? "0" : "") + v.length + v; }
+  function crcPix(s){
+    var c = 0xFFFF, i, j;
+    for (i = 0; i < s.length; i++){
+      c ^= s.charCodeAt(i) << 8;
+      for (j = 0; j < 8; j++) c = (c & 0x8000) ? ((c << 1) ^ 0x1021) & 0xFFFF : (c << 1) & 0xFFFF;
+    }
+    return ("000" + c.toString(16).toUpperCase()).slice(-4);
+  }
+  function codigoPix(valor){
+    var s = campoPix("00", "01") + campoPix("26", campoPix("00", "br.gov.bcb.pix") + campoPix("01", PIX.chave)) +
+      campoPix("52", "0000") + campoPix("53", "986") + campoPix("54", valor.toFixed(2)) + campoPix("58", "BR") +
+      campoPix("59", PIX.nome) + campoPix("60", PIX.cidade) + campoPix("62", campoPix("05", "***")) + "6304";
+    return s + crcPix(s);
+  }
+  function pixAtivo(){ return !!(ENVIO && PIX.chave && pixValor > 0); }
+  function desenharPix(valor){
+    var mudou = valor !== pixValor; pixValor = valor;
+    $("pix").hidden = !pixAtivo();
+    $("aviso-site").textContent = pixAtivo() ? "A " + PIX.quem + " confere o Pix e confirma a aula pelo seu WhatsApp." : "A " + PIX.quem + " analisa o pedido e confirma a aula pelo seu WhatsApp.";
+    if (!pixAtivo() || !mudou) return;
+    var codigo = codigoPix(valor), caixa = $("pix-qr");
+    $("pix-feito").checked = false;
+    $("pix-valor").textContent = "R$ " + valor.toFixed(2).replace(".", ",");
+    $("pix-nome").textContent = PIX.nome; $("pix-chave").textContent = PIX.mostra;
+    $("pix-codigo").value = codigo;
+    $("pix-copiar").textContent = "Copiar código Pix";
+    if (window.qrcode){
+      var q = window.qrcode(0, "M"), n, d = "", l, c;
+      q.addData(codigo); q.make(); n = q.getModuleCount();
+      for (l = 0; l < n; l++) for (c = 0; c < n; c++) if (q.isDark(l, c)) d += "M" + (c + 4) + " " + (l + 4) + "h1v1h-1z";
+      caixa.innerHTML = '<svg viewBox="0 0 ' + (n + 8) + " " + (n + 8) + '" shape-rendering="crispEdges" role="img" aria-label="QR Code do Pix"><rect width="100%" height="100%" fill="#fff"/><path fill="#000" d="' + d + '"/></svg>';
+      caixa.hidden = false;
+    } else caixa.hidden = true;   // sem a biblioteca do QR, fica só o copia e cola
+  }
+  $("pix-copiar").addEventListener("click", function(){
+    var campo = $("pix-codigo"), botao = $("pix-copiar");
+    function pronto(){ botao.textContent = "Código copiado"; }
+    function naMao(){ campo.focus(); campo.select(); botao.textContent = "Selecionado: copie"; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(campo.value).then(pronto, naMao);
+    else naMao();
+  });
+  $("pix-codigo").addEventListener("focus", function(){ this.select(); });
   function totalTexto(){ var f = formato(), F = FORMATOS[f]; return "R$ " + (f === "grupo" ? F.preco * estado.pessoas + " (" + F.nota + ")" : F.preco + " (" + F.nota + ")"); }
   function fone(){
     var bruto = $("f-fone").value.trim(), n = bruto.replace(/\D/g, "");
@@ -576,6 +666,7 @@ button,input,textarea{font:inherit}
     if (!materia()){ $("monte").scrollIntoView({ behavior: calmo() ? "auto" : "smooth", block: "start" }); return "Escolha a matéria para continuar."; }
     if (!$("f-nome").value.trim()){ $("f-nome").focus(); return "Escreva seu nome para a Israela saber quem é."; }
     if (precisaFone && !foneOk()){ $("f-fone").focus(); return "Informe seu WhatsApp com DDD para a Israela confirmar a aula."; }
+    if (precisaFone && pixAtivo() && !$("pix-feito").checked){ $("pix").scrollIntoView({ behavior: calmo() ? "auto" : "smooth", block: "center" }); return "Faça o Pix e marque “Já fiz o Pix” para enviar o pedido."; }
     return "";
   }
 
@@ -621,11 +712,17 @@ button,input,textarea{font:inherit}
       body: JSON.stringify({ site: "israela", nome: $("f-nome").value.trim(), whatsapp: fone(),
         aula: $("r-formato").textContent + " · " + $("r-onde").textContent, horario: q ? diaTexto(q) : "A combinar",
         tema: m.nome + (assuntoTexto() !== "—" ? ": " + assuntoTexto() : ""), descricao: $("f-desc").value.trim(),
-        valor: totalTexto(), hp: $("f-site").value }) })
+        valor: totalTexto() + (pixAtivo() ? " · Pix informado" : ""), hp: $("f-site").value }) })
     .then(function(){
       $("pedido-campos").hidden = true; $("pedido-ok").hidden = false;
       $("ok-fone").textContent = $("f-fone").value.trim();
       $("ok-wa").href = linkWa("Olá, Israela! Acabei de enviar um pedido de aula pelo site. Meu nome é " + $("f-nome").value.trim() + ".");
+      if (pixAtivo()){
+        $("ok-frase").textContent = "A Israela vai conferir o Pix e confirmar a aula pelo WhatsApp";
+        $("ok-dica").textContent = "Para adiantar, mande o comprovante.";
+        $("ok-wa").textContent = "Enviar comprovante no WhatsApp";
+        $("ok-wa").href = linkWa("Olá, Israela! Enviei um pedido de aula pelo site e já fiz o Pix. Meu nome é " + $("f-nome").value.trim() + ". Segue o comprovante.");
+      }
       cantos(); $("pedido-ok").focus();
     })
     .catch(function(){
@@ -640,10 +737,11 @@ button,input,textarea{font:inherit}
   function virar(){
     virada = !virada; ficha.classList.toggle("virada", virada);
     setTimeout(function(){
-      if (virada){ $("termo-pt").textContent = CARTOES[(indice + 1) % CARTOES.length][0]; }
-      else { indice = (indice + 1) % CARTOES.length; $("termo-es").textContent = CARTOES[indice][1]; }
+      if (virada){ var prox = CARTOES[(indice + 1) % CARTOES.length]; $("termo-pt").textContent = prox[0]; $("fig-pt").innerHTML = FIGURAS[prox[2]]; }
+      else { indice = (indice + 1) % CARTOES.length; $("termo-es").textContent = CARTOES[indice][1]; $("fig-es").innerHTML = FIGURAS[CARTOES[indice][2]]; }
     }, 400);
   }
+  $("fig-pt").innerHTML = $("fig-es").innerHTML = FIGURAS[CARTOES[0][2]];
   function ligar(){ if (!calmo()) relogio = setInterval(virar, 2600); }
   ficha.addEventListener("click", function(){ clearInterval(relogio); virar(); ligar(); });
   ligar();
