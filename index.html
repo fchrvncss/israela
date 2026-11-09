@@ -147,8 +147,49 @@ button,input,textarea{font:inherit}
 .formatos small{color:var(--suave);font-size:.875rem;line-height:1.3}
 .formatos input:checked+label{border-color:var(--tinta);box-shadow:inset 0 0 0 1.5px var(--tinta)}
 .formatos input:focus-visible+label,.onde input:focus-visible+label{outline:3px solid var(--med);outline-offset:3px}
-.campo-dia{max-width:260px}
-.campo-dia input{background:var(--cartao)}
+.agenda{display:grid;gap:18px;align-items:start}
+@media (min-width:760px) and (max-width:959px),(min-width:1240px){.agenda{grid-template-columns:minmax(0,340px) minmax(0,1fr)}}
+.cal{display:grid;gap:10px;width:100%;max-width:400px}
+.cal-topo{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cal-topo b{font:700 1rem/1.2 var(--titulo);letter-spacing:-.03em}
+.cal-seta{width:44px;height:44px;border:1.5px solid var(--linha);border-radius:50%;background:var(--cartao);color:var(--tinta);font-size:1.25rem;line-height:1;cursor:pointer}
+.cal-seta:disabled{opacity:.3;cursor:default}
+.cal-grade{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal-sem{padding-bottom:2px;text-align:center;font-size:.75rem;font-weight:700;color:var(--suave);text-transform:uppercase;letter-spacing:.04em}
+.cal-dia{aspect-ratio:1;min-width:0;min-height:40px;padding:0;border:1.5px solid var(--linha);border-radius:12px;background:var(--cartao);color:var(--tinta);font-weight:700;font-size:var(--t-1);font-variant-numeric:tabular-nums;cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+@media (hover:hover){.cal-dia:not(:disabled):hover{border-color:var(--tinta);transform:translateY(-1px)}}
+.cal-dia:disabled{border-color:transparent;background:var(--linha);color:var(--suave);opacity:.55;cursor:not-allowed}
+.cal-dia.cheio{border:1.5px dashed var(--suave);background:transparent}
+.cal-dia.hoje{box-shadow:inset 0 -3px 0 var(--suave)}
+.cal-dia.escolhido{border-color:var(--med);background:var(--med);color:#fff;opacity:1}
+.cal-dia.conflito{border:2px solid var(--erro);color:var(--erro);opacity:1}
+.cal-dia.aberto{outline:3px solid var(--tinta);outline-offset:2px}
+.cal-leg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8125rem;color:var(--suave)}
+.cal-leg i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px;border-radius:4px}
+.l-esc{background:var(--med)}
+.l-off{background:var(--linha)}
+.agenda-lado{display:grid;gap:12px;align-content:start;min-width:0}
+.painel-hora{display:grid;gap:10px;padding:16px;border:1.5px solid var(--tinta);border-radius:16px;background:var(--fundo);animation:surge .25s ease}
+.painel-hora h4{margin:0;font:700 1rem/1.2 var(--titulo);letter-spacing:-.03em}
+.aulas-cab{font-size:var(--t-1)}
+.aviso-agenda{font-size:.875rem;font-weight:700;color:var(--erro)}
+.aulas{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.aula{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:8px 8px 8px 14px;border:1.5px solid var(--linha);border-radius:12px;font-size:var(--t-1)}
+.aula.conflito{border-color:var(--erro)}
+.aula small{font-size:.875rem;font-weight:700;color:var(--erro)}
+.mini-acoes{display:flex;flex-wrap:wrap;gap:6px}
+.mini{min-width:40px;min-height:40px;padding:6px 12px;border:1.5px solid var(--linha);border-radius:999px;background:var(--cartao);color:var(--tinta);font-weight:600;font-size:.875rem;cursor:pointer}
+@media (hover:hover){.mini:hover{border-color:var(--tinta)}}
+.chip.ocupado,.chip.ocupado:hover{border:1.5px dashed var(--suave);background:transparent;color:var(--suave);text-decoration:line-through;cursor:not-allowed;transform:none;opacity:.75}
+.legenda-ocupado{font-size:.875rem;color:var(--suave)}
+.legenda-ocupado i{display:inline-block;width:22px;height:12px;margin-right:6px;vertical-align:-1px;border:1.5px dashed var(--suave);border-radius:999px}
+.alerta{position:fixed;z-index:60;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;width:min(560px,calc(100% - 32px));padding:14px 16px 14px 18px;border-radius:16px;background:var(--erro);color:#fff;box-shadow:0 14px 40px rgba(0,0,0,.3);font-weight:700;line-height:1.35;animation:alerta .35s ease}
+.alerta p{flex:1;min-width:200px;margin:0}
+.alerta-ok{min-height:40px;padding:8px 16px;border:1.5px solid #fff;border-radius:999px;background:transparent;color:#fff;font-weight:700;cursor:pointer}
+@keyframes alerta{0%{opacity:0;transform:translate(-50%,16px)}60%{transform:translate(-50%,-3px)}100%{opacity:1;transform:translate(-50%,0)}}
+@keyframes treme{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.treme{animation:treme .4s ease}
+@media (prefers-reduced-motion:reduce){.alerta,.treme{animation:none}}
 .linha-opc{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
 .onde{display:flex;flex-wrap:wrap;gap:8px}
 .onde label{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border:1.5px solid var(--linha);border-radius:999px;background:var(--cartao);cursor:pointer;font-weight:500;font-size:var(--t-1)}
@@ -320,27 +361,27 @@ button,input,textarea{font:inherit}
 <section class="bloco" id="monte">
   <div class="wrap">
     <h2>Monte sua aula</h2>
-    <p class="intro">Escolha a matéria, o assunto, o formato e o horário. A Israela recebe o pedido pronto.</p>
+    <p class="intro">Escolha a matéria, o assunto, o formato e os dias das aulas. A Israela recebe o pedido pronto.</p>
     <div class="monta">
       <div>
-        <div class="passo">
+        <div class="passo" data-passo="1">
           <h3><i>1</i>Matéria</h3>
           <p class="rot m">Medicina</p>
           <div class="tiles" id="tiles-med"></div>
           <p class="rot e">Idiomas</p>
           <div class="tiles" id="tiles-esp"></div>
         </div>
-        <div class="passo" id="passo-assunto">
+        <div class="passo" id="passo-assunto" data-passo="2">
           <h3><i>2</i><span id="titulo-assunto">Assunto</span></h3>
           <p class="vazio" id="assunto-vazio">Escolha uma matéria para ver os assuntos.</p>
           <div class="chips" id="chips" hidden></div>
         </div>
-        <div class="passo" id="valores">
+        <div class="passo" id="valores" data-passo="3">
           <h3><i>3</i>Formato e valor</h3>
           <div class="formatos" role="radiogroup" aria-label="Formato da aula">
-            <input type="radio" name="fmt" id="fmt-individual" value="individual" checked><label for="fmt-individual"><b>Aula individual</b><span class="preco">R$ 80</span><small>1 hora</small></label>
-            <input type="radio" name="fmt" id="fmt-grupo" value="grupo"><label for="fmt-grupo"><b>Dupla ou grupo</b><span class="preco">R$ 60</span><small>por pessoa · até 8 pessoas</small></label>
-            <input type="radio" name="fmt" id="fmt-vespera" value="vespera"><label for="fmt-vespera"><b>Revisão de véspera</b><span class="preco">R$ 100</span><small>até 1h30 de aula</small></label>
+            <input type="radio" name="fmt" id="fmt-individual" value="individual" checked><label for="fmt-individual"><b>Aula individual</b><span class="preco">R$ 80</span><small>por aula · 1 hora</small></label>
+            <input type="radio" name="fmt" id="fmt-grupo" value="grupo"><label for="fmt-grupo"><b>Dupla ou grupo</b><span class="preco">R$ 60</span><small>por pessoa, por aula · até 8 pessoas</small></label>
+            <input type="radio" name="fmt" id="fmt-vespera" value="vespera"><label for="fmt-vespera"><b>Revisão de véspera</b><span class="preco">R$ 100</span><small>por aula · até 1h30</small></label>
           </div>
           <div class="pessoas" id="pessoas" hidden>
             <span id="rot-pessoas">Quantas pessoas?</span>
@@ -358,24 +399,15 @@ button,input,textarea{font:inherit}
             <span class="pagar">Pagamento por Pix.</span>
           </div>
         </div>
-        <div class="passo" id="passo-quando">
-          <h3><i>4</i>Data e horário</h3>
-          <div class="campo campo-dia">
-            <label for="f-quando">Dia da aula</label>
-            <input type="date" id="f-quando">
-          </div>
-          <div class="onde" role="radiogroup" aria-label="Horário da aula">
-            <input type="radio" name="hora" id="hora-manha" value="manha"><label for="hora-manha">Manhã · 8h às 12h</label>
-            <input type="radio" name="hora" id="hora-tarde" value="tarde"><label for="hora-tarde">Tarde · 13h às 18h</label>
-            <input type="radio" name="hora" id="hora-noite" value="noite"><label for="hora-noite">Noite · 19h às 22h</label>
-            <input type="radio" name="hora" id="hora-combinar" value="combinar" checked><label for="hora-combinar">A combinar</label>
-          </div>
-          <p class="vazio">A Israela confirma o horário exato pelo WhatsApp.</p>
+        <div class="passo" id="passo-quando" data-passo="4">
+          <h3><i>4</i>Dias e horários</h3>
+          <p class="vazio">Cada dia escolhido é uma aula. Toque no dia e depois escolha o horário. Dias em cinza não têm horário livre.</p>
+          <div class="horas" id="horas"></div>
         </div>
         <p class="direto">Prefere combinar por mensagem? <a data-msg="Olá, Israela! Quero uma aula, mas prefiro te explicar o que preciso." href="https://wa.me/" target="_blank" rel="noopener">Converse direto com a Israela</a>.</p>
       </div>
 
-      <form class="pedido" id="pedido" novalidate>
+      <form class="pedido" id="pedido" data-passo="5" novalidate>
         <div class="campos" id="pedido-campos">
           <h3>Seu pedido</h3>
           <dl class="resumo">
@@ -383,7 +415,7 @@ button,input,textarea{font:inherit}
             <div><dt>Assunto</dt><dd id="r-assunto">—</dd></div>
             <div><dt>Formato</dt><dd id="r-formato">Aula individual</dd></div>
             <div><dt>Onde</dt><dd id="r-onde">Online</dd></div>
-            <div><dt>Quando</dt><dd id="r-quando">A combinar</dd></div>
+            <div><dt>Aulas</dt><dd id="r-quando">—</dd></div>
           </dl>
           <p class="total" id="r-total">R$ 80<small>1 hora</small></p>
           <div class="campo">
@@ -391,12 +423,12 @@ button,input,textarea{font:inherit}
             <textarea id="f-desc" rows="3" maxlength="600" placeholder="Ex.: prova de Fisiologia na sexta, minha dúvida é em potencial de ação."></textarea>
           </div>
           <div class="campo">
-            <label for="f-nome">Seu nome</label>
-            <input type="text" id="f-nome" autocomplete="name" placeholder="Como você se chama?">
+            <label for="f-nome">Seu nome <small>(obrigatório)</small></label>
+            <input type="text" id="f-nome" aria-required="true" autocomplete="name" placeholder="Como você se chama?">
           </div>
           <div class="campo so-site" hidden>
-            <label for="f-fone">Seu WhatsApp</label>
-            <input type="tel" id="f-fone" autocomplete="tel" inputmode="tel" placeholder="+55 11 99999-9999" aria-describedby="fone-dica">
+            <label for="f-fone">Seu WhatsApp <small>(obrigatório)</small></label>
+            <input type="tel" id="f-fone" aria-required="true" autocomplete="tel" inputmode="tel" placeholder="+55 11 99999-9999" aria-describedby="fone-dica">
             <small id="fone-dica">Fora do Brasil? Comece com o código do país, como +595.</small>
           </div>
           <div class="pix" id="pix" hidden>
@@ -409,7 +441,7 @@ button,input,textarea{font:inherit}
               <button type="button" class="btn btn-2 btn-p" id="pix-copiar">Copiar código Pix</button>
               <span>Chave Pix: <b id="pix-chave"></b></span>
             </div>
-            <label class="pix-feito" for="pix-feito"><input type="checkbox" id="pix-feito">Já fiz o Pix</label>
+            <label class="pix-feito" for="pix-feito"><input type="checkbox" id="pix-feito" aria-required="true">Já fiz o Pix <small>(obrigatório)</small></label>
           </div>
           <div class="pote" aria-hidden="true"><label for="f-site">Não preencha este campo</label><input type="text" id="f-site" tabindex="-1" autocomplete="off"></div>
           <p class="erro" id="erro" role="alert" hidden></p>
@@ -467,6 +499,11 @@ button,input,textarea{font:inherit}
     <span><a href="https://www.instagram.com/hutscher_/" target="_blank" rel="noopener">Instagram @hutscher_</a></span>
   </div>
 </footer>
+
+<div class="alerta" id="alerta" role="alertdialog" aria-live="assertive" aria-labelledby="alerta-texto" hidden>
+  <p id="alerta-texto"></p>
+  <button type="button" class="alerta-ok" id="alerta-ok">Entendi</button>
+</div>
 
 <div class="barra" id="barra" hidden>
   <p><b id="b-materia"></b><span id="b-total"></span></p>
@@ -572,12 +609,169 @@ button,input,textarea{font:inherit}
     var p = v.split("-"), d = new Date(+p[0], +p[1] - 1, +p[2]);
     return DIAS[d.getDay()] + ", " + dois(d.getDate()) + "/" + dois(d.getMonth() + 1);
   }
-  var HORAS = { manha: "de manhã (8h às 12h)", tarde: "à tarde (13h às 18h)", noite: "à noite (19h às 22h)" };
+  function valorAula(){ var f = formato(), F = FORMATOS[f]; return f === "grupo" ? F.preco * estado.pessoas : F.preco; }
+  function precoAula(){ return "R$ " + valorAula(); }
   function quandoTexto(){
-    var q = $("f-quando").value, h = (document.querySelector('input[name="hora"]:checked') || {}).value, hora = HORAS[h];
-    if (!q && !hora) return "A combinar";
-    return (q ? diaTexto(q) : "Dia a combinar") + (hora ? ", " + hora : ", horário a combinar");
+    if (!estado.aulas.length) return "—";
+    return estado.aulas.map(function(a){ return ddmmaaaa(a.data) + " (" + NOMES[data(a.data).getDay()] + ") " + (a.hora ? "às " + a.hora : "horário a escolher"); }).join(" · ");
   }
+  function quandoCurto(){
+    if (!estado.aulas.length) return "—";
+    return estado.aulas.map(function(a){ return maiuscula(CURTOS[data(a.data).getDay()]) + " " + ddmm(a.data) + (a.hora ? " às " + a.hora : ", a escolher"); }).join(" · ");
+  }
+  // ===== Agenda: aulas avulsas, cada uma num dia, com horário =====
+  // Horários de pedidos "Novo" e "Confirmado" na planilha ficam ocupados ("Sem vaga" libera).
+  // HORARIOS: dias da semana com aula (0 = domingo ... 6 = sábado) e o início de cada aula.
+  var HORARIOS = {
+    1: ["8h", "9h", "10h", "11h", "13h", "14h", "15h", "16h", "17h", "19h", "20h", "21h"],
+    2: ["8h", "9h", "10h", "11h", "13h", "14h", "15h", "16h", "17h", "19h", "20h", "21h"],
+    3: ["8h", "9h", "10h", "11h", "13h", "14h", "15h", "16h", "17h", "19h", "20h", "21h"],
+    4: ["8h", "9h", "10h", "11h", "13h", "14h", "15h", "16h", "17h", "19h", "20h", "21h"],
+    5: ["8h", "9h", "10h", "11h", "13h", "14h", "15h", "16h", "17h", "19h", "20h", "21h"]
+  };
+  var MAX_AULAS = 8, MESES_A_FRENTE = 2;
+  var NOMES = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+  var CURTOS = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
+  var MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+  var ocupado = {};
+  var hojeD = new Date(); hojeD.setHours(0, 0, 0, 0);
+  estado.aulas = []; estado.aberta = "";
+  estado.mes = new Date(hojeD.getFullYear(), hojeD.getMonth(), 1);
+
+  function maiuscula(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+  function iso(d){ return d.getFullYear() + "-" + dois(d.getMonth() + 1) + "-" + dois(d.getDate()); }
+  function data(s){ var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function ddmm(s){ var d = data(s); return dois(d.getDate()) + "/" + dois(d.getMonth() + 1); }
+  function ddmmaaaa(s){ return ddmm(s) + "/" + data(s).getFullYear(); }
+  function chave(t){ return String(t).toLowerCase().replace(/\s+/g, ""); }
+  function horasDoDia(s){ return HORARIOS[data(s).getDay()] || []; }
+  function livre(s, h){ return !ocupado[s + "|" + chave(h)]; }
+  function horasLivres(s){ return horasDoDia(s).filter(function(h){ return livre(s, h); }); }
+  function aulaDa(s){ return estado.aulas.filter(function(a){ return a.data === s; })[0] || null; }
+  function aulasProntas(){ return estado.aulas.filter(function(a){ return a.hora; }); }
+  function nAulas(){ return Math.max(1, aulasProntas().length); }
+
+  function lerOcupados(lista){
+    ocupado = {};
+    (lista || []).forEach(function(q){
+      String(q).split(/\s*[·;]\s*/).forEach(function(parte){
+        var m = parte.match(/(\d{2})\/(\d{2})\/(\d{4}).*?(?:às|das)\s+(\d{1,2}h\d{0,2})/i);
+        if (m) ocupado[m[3] + "-" + m[2] + "-" + m[1] + "|" + chave(m[4])] = true;
+      });
+    });
+    estado.aulas.forEach(function(a){ if (a.hora && !livre(a.data, a.hora)){ a.hora = ""; a.conflito = true; } });
+  }
+  function buscarOcupados(){
+    if (!ENVIO) return;
+    fetch(ENVIO + "?ocupados=1&t=" + Date.now()).then(function(r){ return r.json(); }).then(function(r){
+      lerOcupados(r && r.ocupados); desenharAgenda(); atualizar();
+    }).catch(function(){});
+  }
+
+  function abrir(s){
+    estado.aberta = estado.aberta === s ? "" : s;
+    desenharAgenda(); atualizar();
+    var p = $("painel-hora");
+    if (p && p.getBoundingClientRect().top > window.innerHeight * 0.8) p.scrollIntoView({ behavior: calmo() ? "auto" : "smooth", block: "nearest" });
+  }
+  function escolher(s, h){
+    var a = aulaDa(s);
+    if (a){ a.hora = h; a.conflito = false; }
+    else estado.aulas.push({ data: s, hora: h });
+    estado.aulas.sort(function(x, y){ return x.data < y.data ? -1 : 1; });
+    var pendente = estado.aulas.filter(function(x){ return !x.hora; })[0];
+    estado.aberta = pendente ? pendente.data : "";
+    desenharAgenda(); atualizar();
+  }
+  function tirar(s){
+    estado.aulas = estado.aulas.filter(function(a){ return a.data !== s; });
+    if (estado.aberta === s) estado.aberta = "";
+    desenharAgenda(); atualizar();
+  }
+  function el(tag, classe, texto){ var e = document.createElement(tag); if (classe) e.className = classe; if (texto != null) e.textContent = texto; return e; }
+  function agBotao(classe, texto, fn){ var b = el("button", classe, texto); b.type = "button"; if (fn) b.addEventListener("click", fn); return b; }
+
+  function desenharAgenda(){
+    var c = $("horas"); c.textContent = "";
+    var hojeIso = iso(hojeD), primeiro = iso(new Date(hojeD.getFullYear(), hojeD.getMonth(), hojeD.getDate() + 1));
+    var mes = estado.mes, limite = new Date(hojeD.getFullYear(), hojeD.getMonth() + MESES_A_FRENTE, 1);
+
+    var cal = el("div", "cal"), topo = el("div", "cal-topo");
+    var ant = agBotao("cal-seta", "‹", function(){ estado.mes = new Date(mes.getFullYear(), mes.getMonth() - 1, 1); desenharAgenda(); });
+    var prox = agBotao("cal-seta", "›", function(){ estado.mes = new Date(mes.getFullYear(), mes.getMonth() + 1, 1); desenharAgenda(); });
+    ant.setAttribute("aria-label", "Mês anterior"); prox.setAttribute("aria-label", "Próximo mês");
+    ant.disabled = mes.getFullYear() === hojeD.getFullYear() && mes.getMonth() === hojeD.getMonth();
+    prox.disabled = mes >= limite;
+    var titulo = el("b", "", maiuscula(MESES[mes.getMonth()]) + " " + mes.getFullYear()); titulo.setAttribute("aria-live", "polite");
+    topo.appendChild(ant); topo.appendChild(titulo); topo.appendChild(prox); cal.appendChild(topo);
+
+    var grade = el("div", "cal-grade");
+    ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"].forEach(function(n){ grade.appendChild(el("span", "cal-sem", n)); });
+    for (var v = 0; v < (mes.getDay() + 6) % 7; v++) grade.appendChild(el("span", "cal-vazio"));
+    var total = new Date(mes.getFullYear(), mes.getMonth() + 1, 0).getDate();
+    for (var dia = 1; dia <= total; dia++){
+      (function(s){
+        var b = agBotao("cal-dia", String(+s.slice(8)), function(){ abrir(s); });
+        var a = aulaDa(s), oferece = horasDoDia(s).length > 0, cheio = oferece && !horasLivres(s).length, motivo = "";
+        if (s < primeiro) motivo = "já passou";
+        else if (!oferece) motivo = "sem aula neste dia";
+        else if (cheio && !a) motivo = "todos os horários ocupados";
+        else if (!a && estado.aulas.length >= MAX_AULAS) motivo = "limite de " + MAX_AULAS + " aulas por pedido";
+        if (motivo){ b.disabled = true; b.title = maiuscula(motivo); if (cheio) b.classList.add("cheio"); }
+        if (a) b.classList.add(a.hora ? "escolhido" : "conflito");
+        if (estado.aberta === s) b.classList.add("aberto");
+        if (s === hojeIso) b.classList.add("hoje");
+        b.setAttribute("aria-label", NOMES[data(s).getDay()] + ", " + ddmm(s) + (a && a.hora ? ", aula às " + a.hora : "") + (motivo ? ": " + motivo : ""));
+        if (a) b.setAttribute("aria-pressed", "true");
+        grade.appendChild(b);
+      })(iso(new Date(mes.getFullYear(), mes.getMonth(), dia)));
+    }
+    cal.appendChild(grade);
+    var leg = el("p", "cal-leg"); leg.innerHTML = '<span><i class="l-esc"></i>escolhido</span><span><i class="l-off"></i>sem horário</span>';
+    cal.appendChild(leg);
+
+    var lado = el("div", "agenda-lado");
+    if (estado.aberta){
+      var s = estado.aberta, a = aulaDa(s), painel = el("div", "painel-hora");
+      painel.id = "painel-hora";
+      painel.appendChild(el("h4", "", maiuscula(NOMES[data(s).getDay()]) + ", " + ddmm(s)));
+      painel.appendChild(el("p", "vazio", a && a.conflito && !a.hora ? "Esse horário foi ocupado. Escolha outro:" : "Escolha o horário de início:"));
+      var lista = el("div", "chips");
+      horasDoDia(s).forEach(function(hr){
+        var b = botao("chip", hr);
+        if (!livre(s, hr)){ b.className = "chip ocupado"; b.disabled = true; b.removeAttribute("aria-pressed"); b.title = "Horário ocupado"; b.setAttribute("aria-label", hr + ": horário ocupado"); }
+        else { b.setAttribute("aria-pressed", a && a.hora === hr ? "true" : "false"); b.addEventListener("click", function(){ escolher(s, hr); }); }
+        lista.appendChild(b);
+      });
+      painel.appendChild(lista);
+      if (horasDoDia(s).some(function(hr){ return !livre(s, hr); })){
+        var lg = el("p", "legenda-ocupado"); lg.innerHTML = '<i aria-hidden="true"></i>Tracejado: horário já ocupado.'; painel.appendChild(lg);
+      }
+      var ac = el("div", "mini-acoes");
+      if (a) ac.appendChild(agBotao("mini", "Tirar este dia", function(){ tirar(s); }));
+      ac.appendChild(agBotao("mini", "Fechar", function(){ estado.aberta = ""; desenharAgenda(); }));
+      painel.appendChild(ac); lado.appendChild(painel);
+    }
+    var n = aulasProntas().length;
+    var cab = el("p", "aulas-cab"); cab.innerHTML = n ? "<b>" + n + (n === 1 ? " aula" : " aulas") + "</b> · " + totalTexto() : "Nenhuma aula escolhida ainda.";
+    lado.appendChild(cab);
+    if (estado.aulas.length){
+      var ul = el("ul", "aulas");
+      estado.aulas.forEach(function(x){
+        var li = el("li", "aula" + (x.hora ? "" : " conflito")), tx = el("span");
+        tx.innerHTML = "<b>" + maiuscula(CURTOS[data(x.data).getDay()]) + ", " + ddmm(x.data) + "</b> " + (x.hora ? "às " + x.hora : "<small>escolha outro horário</small>");
+        var bs = el("span", "mini-acoes");
+        bs.appendChild(agBotao("mini", x.hora ? "Trocar" : "Escolher", function(){ abrir(x.data); }));
+        var rm = agBotao("mini", "×", function(){ tirar(x.data); }); rm.setAttribute("aria-label", "Tirar " + ddmm(x.data)); bs.appendChild(rm);
+        li.appendChild(tx); li.appendChild(bs); ul.appendChild(li);
+      });
+      lado.appendChild(ul);
+      if (estado.aulas.length < MAX_AULAS) lado.appendChild(el("p", "vazio", "Quer mais aulas? Toque em outro dia do calendário. Cada aula soma " + precoAula() + "."));
+    } else lado.appendChild(el("p", "vazio", "Toque num dia do calendário e escolha o horário. Cada dia escolhido é uma aula."));
+
+    var agenda = el("div", "agenda"); agenda.appendChild(cal); agenda.appendChild(lado); c.appendChild(agenda);
+  }
+
   function assuntoTexto(){
     if (estado.modo === "geral") return "Revisão geral da matéria";
     if (estado.modo === "conversar") return "Conversar antes com a Israela";
@@ -593,7 +787,11 @@ button,input,textarea{font:inherit}
     if (f === "grupo") l.push("Formato: dupla ou grupo, " + estado.pessoas + " pessoas (R$ 60 por pessoa).");
     else l.push("Formato: " + F.rotulo.toLowerCase() + " (R$ " + F.preco + ").");
     l.push("Onde: " + onde() + ".");
-    l.push("Quando: " + quandoTexto() + ".");
+    if (aulasProntas().length){
+      l.push(aulasProntas().length === 1 ? "Dia e horário:" : "Minhas " + aulasProntas().length + " aulas:");
+      aulasProntas().forEach(function(a){ l.push("- " + maiuscula(NOMES[data(a.data).getDay()]) + ", " + ddmm(a.data) + ", às " + a.hora); });
+      l.push("Total: " + totalTexto() + ".");
+    }
     if (desc) l.push("Como eu quero a aula: " + desc);
     l.push("(Pedido feito pelo site)");
     return l.join("\n");
@@ -613,18 +811,52 @@ button,input,textarea{font:inherit}
     $("r-assunto").textContent = assuntoTexto();
     $("r-formato").textContent = F.rotulo + (f === "grupo" ? " · " + estado.pessoas + " pessoas" : "");
     $("r-onde").textContent = onde() === "online" ? "Online" : "Presencial";
-    $("r-quando").textContent = quandoTexto();
-    var total = $("r-total"), nota = document.createElement("small");
-    total.textContent = "R$ " + (f === "grupo" ? F.preco * estado.pessoas : F.preco);
-    nota.textContent = F.nota; total.appendChild(nota);
+    $("r-quando").textContent = quandoCurto();
+    var total = $("r-total"), nota = document.createElement("small"), n = aulasProntas().length;
+    total.textContent = "R$ " + valorAula() * nAulas();
+    nota.textContent = n > 1 ? n + " aulas de " + precoAula() : (n === 1 ? "1 aula · " : "por aula · ") + F.nota;
+    total.appendChild(nota);
     $("enviar").href = linkWa(mensagem());
-    desenharPix(f === "grupo" ? F.preco * estado.pessoas : F.preco);
+    desenharPix(n ? valorAula() * n : 0);
+    var cab = document.querySelector(".aulas-cab");
+    if (cab && n) cab.innerHTML = "<b>" + n + (n === 1 ? " aula" : " aulas") + "</b> · " + totalTexto();
     if (m && $("f-nome").value.trim()) $("erro").hidden = true;
     $("b-materia").textContent = m ? m.nome : "";
     $("b-total").textContent = total.firstChild.textContent + " · " + F.rotulo.toLowerCase();
     cantos();
   }
-  function erro(texto){ var e = $("erro"); e.textContent = texto; e.hidden = false; }
+  function erro(texto){ var e = $("erro"); e.textContent = texto; e.hidden = false; alertar(texto); }
+
+  // ----- pop-up vermelho e ordem obrigatória: 1 matéria, 2 assunto, 3 formato, 4 dias, 5 pedido -----
+  // Dá para olhar qualquer passo, mas só dá para escolher algo com os passos anteriores prontos.
+  var relogioAlerta = null;
+  function alertar(texto){
+    var a = $("alerta");
+    $("alerta-texto").textContent = texto; a.hidden = false;
+    a.style.animation = "none"; void a.offsetWidth; a.style.animation = "";
+    clearTimeout(relogioAlerta); relogioAlerta = setTimeout(function(){ a.hidden = true; }, 7000);
+  }
+  $("alerta-ok").addEventListener("click", function(){ $("alerta").hidden = true; });
+  function assuntoPronto(){ return estado.topicos.length > 0 || !!estado.modo; }
+  function faltaAntes(passo){
+    if (passo >= 2 && !materia()) return "Escolha primeiro a matéria, no passo 1.";
+    if (passo >= 3 && !assuntoPronto()) return "Escolha primeiro o assunto, no passo 2 (ou “Revisão geral da matéria”).";
+    if (passo >= 5 && !aulasProntas().length) return "Escolha primeiro o dia e o horário da aula, no passo 4.";
+    if (passo >= 5 && estado.aulas.some(function(a){ return !a.hora; })) return "Uma das datas ficou sem horário: escolha o horário ou tire esse dia, no passo 4.";
+    return "";
+  }
+  function bloqueio(ev){
+    var alvo = ev.target, p = alvo.closest && alvo.closest("[data-passo]");
+    if (!p || alvo.closest(".cal-seta") || alvo.closest(".alerta")) return;
+    if (!alvo.closest("button, input, textarea, select, label, a")) return;
+    var falta = faltaAntes(+p.dataset.passo);
+    if (!falta) return;
+    ev.preventDefault(); ev.stopPropagation();
+    if (ev.type === "focusin" && alvo.blur) alvo.blur();
+    alertar(falta);
+  }
+  $("monte").addEventListener("click", bloqueio, true);
+  $("monte").addEventListener("focusin", function(ev){ if (ev.target.matches("input, textarea, select")) bloqueio(ev); }, true);
 
   // ----- Pix: QR Code e "copia e cola" já com o valor da aula escolhida -----
   // O site não tem como saber se o Pix caiu: a professora confere no app do banco antes de confirmar a aula.
@@ -672,7 +904,10 @@ button,input,textarea{font:inherit}
     else naMao();
   });
   $("pix-codigo").addEventListener("focus", function(){ this.select(); });
-  function totalTexto(){ var f = formato(), F = FORMATOS[f]; return "R$ " + (f === "grupo" ? F.preco * estado.pessoas + " (" + F.nota + ")" : F.preco + " (" + F.nota + ")"); }
+  function totalTexto(){
+    var n = nAulas(), f = formato(), F = FORMATOS[f];
+    return "R$ " + valorAula() * n + " (" + (n > 1 ? n + " aulas de " + precoAula() : "1 aula") + (f === "grupo" ? ", " + estado.pessoas + " pessoas" : "") + " · " + F.nota + ")";
+  }
   function fone(){
     var bruto = $("f-fone").value.trim(), n = bruto.replace(/\D/g, "");
     if (bruto.charAt(0) !== "+" && n.length <= 11) n = "55" + n;   // sem código do país: assume Brasil
@@ -683,9 +918,10 @@ button,input,textarea{font:inherit}
     return bruto.charAt(0) === "+" ? (n >= 10 && n <= 15) : (n >= 10 && n <= 13);
   }
   function faltando(precisaFone){
-    if (!materia()){ $("monte").scrollIntoView({ behavior: calmo() ? "auto" : "smooth", block: "start" }); return "Escolha a matéria para continuar."; }
+    var falta = faltaAntes(5);
+    if (falta) return falta;
     if (!$("f-nome").value.trim()){ $("f-nome").focus(); return "Escreva seu nome para a Israela saber quem é."; }
-    if (precisaFone && !foneOk()){ $("f-fone").focus(); return "Informe seu WhatsApp com DDD para a Israela confirmar a aula."; }
+    if ((precisaFone || ENVIO) && !foneOk()){ $("f-fone").focus(); return "Informe seu WhatsApp com DDD para a Israela confirmar a aula."; }
     if (precisaFone && pixAtivo() && !$("pix-feito").checked){ $("pix").scrollIntoView({ behavior: calmo() ? "auto" : "smooth", block: "center" }); return "Faça o Pix e marque “Já fiz o Pix” para enviar o pedido."; }
     return "";
   }
@@ -709,13 +945,11 @@ button,input,textarea{font:inherit}
   }
   window.addEventListener("resize", cantos);
 
-  document.querySelectorAll('input[name="fmt"], input[name="onde"], input[name="hora"]').forEach(function(r){ r.addEventListener("change", atualizar); });
-  $("menos").addEventListener("click", function(){ estado.pessoas = Math.max(2, estado.pessoas - 1); atualizar(); });
-  $("mais").addEventListener("click", function(){ estado.pessoas = Math.min(8, estado.pessoas + 1); atualizar(); });
-  var hoje = new Date();
-  $("f-quando").min = hoje.getFullYear() + "-" + dois(hoje.getMonth() + 1) + "-" + dois(hoje.getDate());
+  document.querySelectorAll('input[name="fmt"], input[name="onde"]').forEach(function(r){ r.addEventListener("change", function(){ desenharAgenda(); atualizar(); }); });
+  $("menos").addEventListener("click", function(){ estado.pessoas = Math.max(2, estado.pessoas - 1); desenharAgenda(); atualizar(); });
+  $("mais").addEventListener("click", function(){ estado.pessoas = Math.min(8, estado.pessoas + 1); desenharAgenda(); atualizar(); });
   $("pedido").addEventListener("input", atualizar);
-  $("f-quando").addEventListener("input", atualizar);
+  desenharAgenda(); buscarOcupados();
   $("pedido").addEventListener("submit", function(e){ e.preventDefault(); });
   $("enviar").addEventListener("click", function(e){
     var falta = faltando(false);
